@@ -12,9 +12,10 @@ services:
       - "8080:8080"
     command: start-dev
 
-  keycloak_proxy:
+  web:
+    container_name: test_app
     build:
-      context: keycloak_issuer_proxy
+      context: test_app
     depends_on:
       - keycloak
     environment:
