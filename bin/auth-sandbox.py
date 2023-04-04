@@ -8,15 +8,16 @@ from pathlib import Path
 
 import requests
 from requests.auth import HTTPBasicAuth
+import jwt
 # from dotenv import find_dotenv, load_dotenv
 
 # DOTENV_PATH = find_dotenv()
 # if DOTENV_PATH:
 #     load_dotenv(DOTENV_PATH)
 
-KEYCLOAK_DEV_DOMAIN = "http://localhost:8080/realms/master"
-KEYCLOAK_DEV_CLIENT_ID = "client"
-KEYCLOAK_DEV_CLIENT_SECRET = "LrPqhm2dbY8sWQnRjjUDutnW3Mp9PtyF"
+KEYCLOAK_DEV_DOMAIN = "http://localhost:8080/realms/fhir-dev"
+KEYCLOAK_DEV_CLIENT_ID = "fhir-dev-client"
+KEYCLOAK_DEV_CLIENT_SECRET = "lkhZRex5E58JCjcnIKkLcT4t1Q9dw5OW"
 
 SMILECDR_FHIR_ENDPOINT = "http://localhost:4000"
 SMILECDR_AUDIENCE = "https://kf-api-fhir-smilecdr-dev.org"
@@ -24,7 +25,7 @@ SMILECDR_AUDIENCE = "https://kf-api-fhir-smilecdr-dev.org"
 domain = KEYCLOAK_DEV_DOMAIN
 client_id = KEYCLOAK_DEV_CLIENT_ID
 client_secret = KEYCLOAK_DEV_CLIENT_SECRET
-send_req = True
+send_req = False
 
 
 def request(method, *args, **kwargs):
@@ -40,7 +41,7 @@ def request(method, *args, **kwargs):
     return resp
 
 
-def sandbox():
+def sandbox(client_id, client_secret):
     """
     Test OAuth2 stuff
     """
@@ -65,10 +66,19 @@ def sandbox():
         "client_secret": client_secret,
         "audience": SMILECDR_AUDIENCE
     }
-    resp = request("post", token_endpoint, data=payload)
+    params = {
+        "scope": "fhir"
+    }
+    resp = request("post", token_endpoint, data=payload, params=params)
     token_payload = resp.json()
     access_token = token_payload["access_token"]
     pprint(token_payload)
+
+    print("\n****** Introspect Token *************")
+    decoded_token = jwt.decode(
+        access_token, options={"verify_signature": False}
+    )
+    pprint(decoded_token)
 
     if send_req:
         print("\n****** Send FHIR request *************")
@@ -82,30 +92,27 @@ def sandbox():
         resp = request("get", fhir_endpoint, headers=headers)
         pprint(resp.json())
 
-    # print("\n****** Introspect Token *************")
-    # intro_endpoint = openid_config["introspection_endpoint"]
-    # payload = {
-    #     "grant_type": "client_credentials",
-    #     "client_id": DEV_CLIENT_ID,
-    #     "client_secret": DEV_CLIENT_SECRET,
-    #     "token": access_token,
-    #     "token_type_hint": "access_token"
-    #     # "audience": SMILECDR_AUDIENCE
-    # }
-    # resp = request("post", intro_endpoint, data=payload)
-    # body = resp.json()
-    # pprint(body)
-
-   # pprint(resp.json())
-
 
 def cli():
     """
     CLI for running this script
     """
-    sandbox()
+    parser = argparse.ArgumentParser(
+        description='Get access token for client'
+    )
+    parser.add_argument(
+        "--client_id",
+        default=client_id,
+        help="Keycloak Client ID",
+    )
+    parser.add_argument(
+        "--client_secret",
+        default=client_secret,
+        help="Keycloak Client secret",
+    )
+    args = parser.parse_args()
 
-    print("✅ Test m2m complete")
+    sandbox(args.client_id, args.client_secret)
 
 
 if __name__ == "__main__":
