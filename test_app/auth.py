@@ -15,11 +15,15 @@ import jwt
 # if DOTENV_PATH:
 #     load_dotenv(DOTENV_PATH)
 
-KEYCLOAK_DEV_DOMAIN = "http://localhost:8080/realms/fhir-dev"
-KEYCLOAK_DEV_CLIENT_ID = "fhir-dev-client"
-KEYCLOAK_DEV_CLIENT_SECRET = "lkhZRex5E58JCjcnIKkLcT4t1Q9dw5OW"
+KEYCLOAK_HOST = os.environ.get("KEYCLOAK_HOST") or "localhost"
+KEYCLOAK_PORT = os.environ.get("KEYCLOAK_PORT") or "8080"
+KEYCLOAK_DEV_DOMAIN = f"http://{KEYCLOAK_HOST}:{KEYCLOAK_PORT}/realms/fhir-dev"
+KEYCLOAK_DEV_CLIENT_ID = "fhir-superuser-client"
+KEYCLOAK_DEV_CLIENT_SECRET = "0Fpgo1YGkoszswRoNULq44JVBXBB0HBu"
 
-SMILECDR_FHIR_ENDPOINT = "http://localhost:4000"
+SMILECDR_HOST = os.environ.get("SMILECDR_HOST") or "localhost"
+SMILECDR_PORT = os.environ.get("SMILECDR_PORT") or "4000"
+SMILECDR_FHIR_ENDPOINT = "http://{SMILECDR_HOST}:{SMILECDR_PORT}"
 SMILECDR_AUDIENCE = "https://kf-api-fhir-smilecdr-dev.org"
 
 domain = KEYCLOAK_DEV_DOMAIN
@@ -28,7 +32,10 @@ client_secret = KEYCLOAK_DEV_CLIENT_SECRET
 send_req = False
 
 
-def request(method, *args, **kwargs):
+def send_request(method, *args, **kwargs):
+    print("\n***** Sending request ******")
+    print(args)
+    pprint(kwargs)
     try:
         requests_op = getattr(requests, method)
         resp = requests_op(*args, **kwargs)
@@ -53,7 +60,7 @@ def sandbox(client_id, client_secret):
     openid_config_endpoint = (
         f"{domain}/.well-known/openid-configuration"
     )
-    resp = request("get", openid_config_endpoint, headers=headers)
+    resp = send_request("get", openid_config_endpoint, headers=headers)
     openid_config = resp.json()
     pprint(openid_config)
 
@@ -69,7 +76,7 @@ def sandbox(client_id, client_secret):
     params = {
         "scope": "fhir"
     }
-    resp = request("post", token_endpoint, data=payload, params=params)
+    resp = send_request("post", token_endpoint, data=payload, params=params)
     token_payload = resp.json()
     access_token = token_payload["access_token"]
     pprint(token_payload)
@@ -89,8 +96,10 @@ def sandbox(client_id, client_secret):
                 "Authorization": f"Bearer {access_token}",
             }
         )
-        resp = request("get", fhir_endpoint, headers=headers)
+        resp = send_request("get", fhir_endpoint, headers=headers)
         pprint(resp.json())
+
+    return decoded_token
 
 
 def cli():
