@@ -1,0 +1,26 @@
+{
+  "realm" : "master",
+  "users" : [ {
+    "id" : "b4ba1a08-c020-46fe-8641-530f04447bbc",
+    "createdTimestamp" : 1680440634060,
+    "username" : "admin",
+    "enabled" : true,
+    "totp" : false,
+    "emailVerified" : false,
+    "credentials" : [ {
+      "id" : "5d6a0b74-9afc-4bf2-8361-b677a1f9af21",
+      "type" : "password",
+      "createdDate" : 1680440634331,
+      "secretData" : "{\"value\":\"utqrz8lK7jXfEhf0yAsfT4pyw4bjpn/wx9ZMoCXZrUM=\",\"salt\":\"qv3MJAzsHkR0uIf0gXHpzg==\",\"additionalParameters\":{}}",
+      "credentialData" : "{\"hashIterations\":27500,\"algorithm\":\"pbkdf2-sha256\",\"additionalParameters\":{}}"
+    } ],
+    "disableableCredentialTypes" : [ ],
+    "requiredActions" : [ ],
+    "realmRoles" : [ "default-roles-master", "admin" ],
+    "clientRoles" : {
+      "fhir-dev-realm" : [ "create-client", "manage-events", "manage-authorization", "query-realms", "view-events", "query-clients", "view-clients", "view-authorization", "manage-clients", "query-groups", "view-realm", "view-users", "view-identity-providers", "manage-identity-providers", "manage-users", "manage-realm", "query-users" ]
+    },
+    "notBefore" : 0,
+    "groups" : [ ]
+  } ]
+}

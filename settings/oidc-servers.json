@@ -38,7 +38,7 @@
     {
     "nodeId" : "Master",
     "moduleId" : "security_in_smart",
-    "issuer" : "https://keycloak:8081/.well-known/openid-configuration",
+    "issuer" : "http://keycloak:8080/realms/fhir-dev",
     "name" : "Keycloak Dev Server",
     "federationAuthScriptText" : "",
     "federationAuthorizationUrl" : "",
