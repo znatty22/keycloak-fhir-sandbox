@@ -1,0 +1,48 @@
+
+version: "3.8"
+
+services:
+  keycloak:
+    container_name: 'keycloak'
+    image: quay.io/keycloak/keycloak:21.0.2
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: password
+      KC_HOSTNAME: "keycloak"
+    ports:
+      - "8080:8080"
+    command: start-dev --hostname-strict-backchannel=true --import-realm
+    # command: start-dev --import-realm
+    volumes:
+      - ./settings/keycloak:/opt/keycloak/data/import
+
+  web:
+    container_name: test_app
+    build:
+      context: test_app
+    depends_on:
+      - keycloak
+    environment:
+      KEYCLOAK_HOST: "keycloak"
+      KEYCLOAK_PORT: "8080"
+      FLASK_SERVER_PORT: 8081
+    ports:
+      - '8081:8081'
+      
+  smilecdr:
+    container_name: smilecdr_simple
+    image: kidsfirstdrc/smilecdr:2023.02.R02
+    depends_on:
+      - keycloak
+    ports:
+      - "4000:8000"
+      - "5000:9000"
+      - "5100:9100"
+      - "4001:8001"
+      - "5200:9200"
+      - "5201:9201"
+    volumes:
+      - ./settings/master.properties:/home/smile/smilecdr/classes/cdr-config-Master.properties
+      - ./settings/oidc-servers.json:/home/smile/smilecdr/classes/config_seeding/oidc-servers.json
+      - ./settings/auth.js:/home/smile/smilecdr/classes/config_seeding/auth.js
+    restart: "unless-stopped"

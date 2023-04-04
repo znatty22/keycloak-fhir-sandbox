@@ -1,0 +1,56 @@
+{
+  "servers" : [ {
+    "nodeId" : "Master",
+    "moduleId" : "security_in_smart",
+    "issuer" : "https://natashasingh-d3b.auth0.com",
+    "name" : "Auth0 Natasha Singh Dev Server",
+    "federationAuthScriptText" : "",
+    "federationAuthorizationUrl" : "",
+    "federationJwkSetUrl" : "",
+    "federationRegistrationId" : "97194cef-7dca-4cdc-a3ae-afbe165283f3",
+    "federationRequestScopes" : "openid profile",
+    "federationTokenUrl" : "",
+    "federationUserInfoUrl" : "",
+    "federationUserMappingScriptText" : "",
+    "tokenIntrospectionClientId" : "",
+    "tokenIntrospectionClientSecret" : "",
+    "validationJwkFile" : "",
+    "validationJwkText" : ""
+  }, 
+  {
+    "nodeId" : "Master",
+    "moduleId" : "security_in_smart",
+    "issuer" : "https://kf-keycloak-qa.kf-strides.org/auth/realms/FHIR-TEST",
+    "name" : "Keycloak QA Strides Server",
+    "federationAuthScriptText" : "",
+    "federationAuthorizationUrl" : "",
+    "federationJwkSetUrl" : "",
+    "federationRegistrationId" : "2eca1c06-6ac7-429d-83e3-748fcb0afe06",
+    "federationRequestScopes" : "openid profile",
+    "federationTokenUrl" : "",
+    "federationUserInfoUrl" : "",
+    "federationUserMappingScriptText" : "",
+    "tokenIntrospectionClientId" : "",
+    "tokenIntrospectionClientSecret" : "",
+    "validationJwkFile" : "",
+    "validationJwkText" : ""
+  },
+    {
+    "nodeId" : "Master",
+    "moduleId" : "security_in_smart",
+    "issuer" : "http://keycloak:8080/realms/fhir-dev",
+    "name" : "Keycloak Dev Server",
+    "federationAuthScriptText" : "",
+    "federationAuthorizationUrl" : "",
+    "federationJwkSetUrl" : "",
+    "federationRequestScopes" : "openid profile",
+    "federationTokenUrl" : "",
+    "federationUserInfoUrl" : "",
+    "federationUserMappingScriptText" : "",
+    "tokenIntrospectionClientId" : "",
+    "tokenIntrospectionClientSecret" : "",
+    "validationJwkFile" : "",
+    "validationJwkText" : ""
+  }
+  ]
+}
