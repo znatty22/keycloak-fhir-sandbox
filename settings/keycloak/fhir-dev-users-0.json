@@ -23,6 +23,34 @@
     "notBefore" : 0,
     "groups" : [ ]
   }, {
+    "id" : "b6231c00-1a07-4f91-8729-0e566b486e96",
+    "createdTimestamp" : 1680629980060,
+    "username" : "service-account-fhir-superuser-client",
+    "enabled" : true,
+    "totp" : false,
+    "emailVerified" : false,
+    "serviceAccountClientId" : "fhir-superuser-client",
+    "credentials" : [ ],
+    "disableableCredentialTypes" : [ ],
+    "requiredActions" : [ ],
+    "realmRoles" : [ "fhir-read-study-all", "fhir-role-fhir-client-superuser", "fhir-write-study-all", "fhir-delete-study-all" ],
+    "notBefore" : 0,
+    "groups" : [ ]
+  }, {
+    "id" : "2e7a8de1-cbe6-4190-a256-a1e205f1c39c",
+    "createdTimestamp" : 1680709042932,
+    "username" : "service-account-fhir-superuser-read-client",
+    "enabled" : true,
+    "totp" : false,
+    "emailVerified" : false,
+    "serviceAccountClientId" : "fhir-superuser-read-client",
+    "credentials" : [ ],
+    "disableableCredentialTypes" : [ ],
+    "requiredActions" : [ ],
+    "realmRoles" : [ "fhir-role-fhir-client-superuser-ro" ],
+    "notBefore" : 0,
+    "groups" : [ ]
+  }, {
     "id" : "7a25c1e2-5403-476b-ab13-00acc1693a75",
     "createdTimestamp" : 1680537347094,
     "username" : "service-account-ingest-study-client",
@@ -37,20 +65,6 @@
     "clientRoles" : {
       "ingest-study-client" : [ "uma_protection" ]
     },
-    "notBefore" : 0,
-    "groups" : [ ]
-  }, {
-    "id" : "b6231c00-1a07-4f91-8729-0e566b486e96",
-    "createdTimestamp" : 1680629980060,
-    "username" : "service-account-fhir-superuser-client",
-    "enabled" : true,
-    "totp" : false,
-    "emailVerified" : false,
-    "serviceAccountClientId" : "fhir-superuser-client",
-    "credentials" : [ ],
-    "disableableCredentialTypes" : [ ],
-    "requiredActions" : [ ],
-    "realmRoles" : [ "fhir-read-study-all", "fhir-write-study-all", "fhir-delete-study-all" ],
     "notBefore" : 0,
     "groups" : [ ]
   } ]

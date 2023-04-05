@@ -59,17 +59,9 @@
       "containerId" : "5c373b7e-9caf-46fa-a232-a5ed2c3ca28a",
       "attributes" : { }
     }, {
-      "id" : "4a2a9ca8-969d-4344-aa2d-bfe3522ed75f",
-      "name" : "fhir-read-study-all",
-      "description" : "Read FHIR resources in any study",
-      "composite" : false,
-      "clientRole" : false,
-      "containerId" : "5c373b7e-9caf-46fa-a232-a5ed2c3ca28a",
-      "attributes" : { }
-    }, {
-      "id" : "4e1d6eef-9273-497e-9501-667a26d85a9b",
-      "name" : "fhir-delete-study-SD-1",
-      "description" : "Delete FHIR resources in this study",
+      "id" : "1d1a9823-bb80-4f34-8de3-20243c572503",
+      "name" : "fhir-role-fhir-client-superuser-ro",
+      "description" : "Superuser that can do any READ FHIR operation in target FHIR server",
       "composite" : false,
       "clientRole" : false,
       "containerId" : "5c373b7e-9caf-46fa-a232-a5ed2c3ca28a",
@@ -91,25 +83,9 @@
       "containerId" : "5c373b7e-9caf-46fa-a232-a5ed2c3ca28a",
       "attributes" : { }
     }, {
-      "id" : "0cbff10d-8beb-4f14-ba6b-ce4c83226f17",
-      "name" : "fhir-write-study-SD-1",
-      "description" : "Write FHIR resources in this study",
-      "composite" : false,
-      "clientRole" : false,
-      "containerId" : "5c373b7e-9caf-46fa-a232-a5ed2c3ca28a",
-      "attributes" : { }
-    }, {
       "id" : "66df751d-5d7a-4746-8d17-8de87d4eb680",
       "name" : "fhir-write-study-all",
       "description" : "Write FHIR resources in any study",
-      "composite" : false,
-      "clientRole" : false,
-      "containerId" : "5c373b7e-9caf-46fa-a232-a5ed2c3ca28a",
-      "attributes" : { }
-    }, {
-      "id" : "517ef141-a96b-483a-a9af-0b9a653f27a3",
-      "name" : "uma_authorization",
-      "description" : "${role_uma_authorization}",
       "composite" : false,
       "clientRole" : false,
       "containerId" : "5c373b7e-9caf-46fa-a232-a5ed2c3ca28a",
@@ -131,14 +107,6 @@
       "containerId" : "5c373b7e-9caf-46fa-a232-a5ed2c3ca28a",
       "attributes" : { }
     }, {
-      "id" : "314469fc-d480-4bb8-9e3d-ae7170d3086c",
-      "name" : "fhir-delete-study-SD-0",
-      "description" : "Delete any FHIR resources in this study",
-      "composite" : false,
-      "clientRole" : false,
-      "containerId" : "5c373b7e-9caf-46fa-a232-a5ed2c3ca28a",
-      "attributes" : { }
-    }, {
       "id" : "96d1393f-c31b-472f-92b6-ae9e9ff360ec",
       "name" : "offline_access",
       "description" : "${role_offline-access}",
@@ -146,8 +114,65 @@
       "clientRole" : false,
       "containerId" : "5c373b7e-9caf-46fa-a232-a5ed2c3ca28a",
       "attributes" : { }
+    }, {
+      "id" : "4a2a9ca8-969d-4344-aa2d-bfe3522ed75f",
+      "name" : "fhir-read-study-all",
+      "description" : "Read FHIR resources in any study",
+      "composite" : false,
+      "clientRole" : false,
+      "containerId" : "5c373b7e-9caf-46fa-a232-a5ed2c3ca28a",
+      "attributes" : { }
+    }, {
+      "id" : "4e1d6eef-9273-497e-9501-667a26d85a9b",
+      "name" : "fhir-delete-study-SD-1",
+      "description" : "Delete FHIR resources in this study",
+      "composite" : false,
+      "clientRole" : false,
+      "containerId" : "5c373b7e-9caf-46fa-a232-a5ed2c3ca28a",
+      "attributes" : { }
+    }, {
+      "id" : "0cbff10d-8beb-4f14-ba6b-ce4c83226f17",
+      "name" : "fhir-write-study-SD-1",
+      "description" : "Write FHIR resources in this study",
+      "composite" : false,
+      "clientRole" : false,
+      "containerId" : "5c373b7e-9caf-46fa-a232-a5ed2c3ca28a",
+      "attributes" : { }
+    }, {
+      "id" : "877a2fa4-24a8-407f-a002-b29b855252c5",
+      "name" : "fhir-role-fhir-client-superuser",
+      "description" : "Admin level user that can do any FHIR operation in target FHIR server",
+      "composite" : false,
+      "clientRole" : false,
+      "containerId" : "5c373b7e-9caf-46fa-a232-a5ed2c3ca28a",
+      "attributes" : { }
+    }, {
+      "id" : "517ef141-a96b-483a-a9af-0b9a653f27a3",
+      "name" : "uma_authorization",
+      "description" : "${role_uma_authorization}",
+      "composite" : false,
+      "clientRole" : false,
+      "containerId" : "5c373b7e-9caf-46fa-a232-a5ed2c3ca28a",
+      "attributes" : { }
+    }, {
+      "id" : "4d025aea-f602-40e5-9b8c-b31ab9731b20",
+      "name" : "fhir-role-superuser",
+      "description" : "Superuser in the target FHIR server",
+      "composite" : false,
+      "clientRole" : false,
+      "containerId" : "5c373b7e-9caf-46fa-a232-a5ed2c3ca28a",
+      "attributes" : { }
+    }, {
+      "id" : "314469fc-d480-4bb8-9e3d-ae7170d3086c",
+      "name" : "fhir-delete-study-SD-0",
+      "description" : "Delete any FHIR resources in this study",
+      "composite" : false,
+      "clientRole" : false,
+      "containerId" : "5c373b7e-9caf-46fa-a232-a5ed2c3ca28a",
+      "attributes" : { }
     } ],
     "client" : {
+      "fhir-superuser-read-client" : [ ],
       "realm-management" : [ {
         "id" : "f2ab4a45-13e6-4ccf-b3a2-aab6c7e71dd3",
         "name" : "view-realm",
@@ -318,6 +343,7 @@
       } ],
       "security-admin-console" : [ ],
       "admin-cli" : [ ],
+      "fhir-superuser-client" : [ ],
       "ingest-study-client" : [ {
         "id" : "c39b1d2c-c182-481d-96b4-7b51137dbbe2",
         "name" : "uma_protection",
@@ -326,7 +352,6 @@
         "containerId" : "a410c6e6-0405-494e-862f-021c084b6c87",
         "attributes" : { }
       } ],
-      "fhir-superuser-client" : [ ],
       "account-console" : [ ],
       "broker" : [ {
         "id" : "4a9bcde1-e4d0-4a13-b1fe-ed2c4cb7d01c",
@@ -431,7 +456,7 @@
   "otpPolicyLookAheadWindow" : 1,
   "otpPolicyPeriod" : 30,
   "otpPolicyCodeReusable" : false,
-  "otpSupportedApplications" : [ "totpAppMicrosoftAuthenticatorName", "totpAppGoogleName", "totpAppFreeOTPName" ],
+  "otpSupportedApplications" : [ "totpAppGoogleName", "totpAppFreeOTPName", "totpAppMicrosoftAuthenticatorName" ],
   "webAuthnPolicyRpEntityName" : "keycloak",
   "webAuthnPolicySignatureAlgorithms" : [ "ES256" ],
   "webAuthnPolicyRpId" : "",
@@ -551,7 +576,9 @@
     "publicClient" : true,
     "frontchannelLogout" : false,
     "protocol" : "openid-connect",
-    "attributes" : { },
+    "attributes" : {
+      "post.logout.redirect.uris" : "+"
+    },
     "authenticationFlowBindingOverrides" : { },
     "fullScopeAllowed" : false,
     "nodeReRegistrationTimeout" : 0,
@@ -577,12 +604,173 @@
     "publicClient" : false,
     "frontchannelLogout" : false,
     "protocol" : "openid-connect",
-    "attributes" : { },
+    "attributes" : {
+      "post.logout.redirect.uris" : "+"
+    },
     "authenticationFlowBindingOverrides" : { },
     "fullScopeAllowed" : false,
     "nodeReRegistrationTimeout" : 0,
     "defaultClientScopes" : [ "web-origins", "acr", "profile", "roles", "email" ],
     "optionalClientScopes" : [ "address", "phone", "offline_access", "microprofile-jwt" ]
+  }, {
+    "id" : "010b4cf5-f9fd-4b6d-a612-49ee2118750d",
+    "clientId" : "fhir-superuser-client",
+    "name" : "Superuser FHIR Client",
+    "description" : "Superuser FHIR Client (can do any FHIR op)",
+    "rootUrl" : "",
+    "adminUrl" : "",
+    "baseUrl" : "",
+    "surrogateAuthRequired" : false,
+    "enabled" : true,
+    "alwaysDisplayInConsole" : true,
+    "clientAuthenticatorType" : "client-secret",
+    "secret" : "0Fpgo1YGkoszswRoNULq44JVBXBB0HBu",
+    "redirectUris" : [ "/*" ],
+    "webOrigins" : [ "/*" ],
+    "notBefore" : 0,
+    "bearerOnly" : false,
+    "consentRequired" : false,
+    "standardFlowEnabled" : false,
+    "implicitFlowEnabled" : false,
+    "directAccessGrantsEnabled" : false,
+    "serviceAccountsEnabled" : true,
+    "publicClient" : false,
+    "frontchannelLogout" : true,
+    "protocol" : "openid-connect",
+    "attributes" : {
+      "oidc.ciba.grant.enabled" : "false",
+      "client.secret.creation.time" : "1680629980",
+      "backchannel.logout.session.required" : "true",
+      "post.logout.redirect.uris" : "+",
+      "oauth2.device.authorization.grant.enabled" : "false",
+      "backchannel.logout.revoke.offline.tokens" : "false"
+    },
+    "authenticationFlowBindingOverrides" : { },
+    "fullScopeAllowed" : true,
+    "nodeReRegistrationTimeout" : -1,
+    "protocolMappers" : [ {
+      "id" : "dbf22a46-49c1-4252-8519-bb508def298b",
+      "name" : "Client IP Address",
+      "protocol" : "openid-connect",
+      "protocolMapper" : "oidc-usersessionmodel-note-mapper",
+      "consentRequired" : false,
+      "config" : {
+        "user.session.note" : "clientAddress",
+        "userinfo.token.claim" : "true",
+        "id.token.claim" : "true",
+        "access.token.claim" : "true",
+        "claim.name" : "clientAddress",
+        "jsonType.label" : "String"
+      }
+    }, {
+      "id" : "523416a0-52c4-4201-9e55-a8966f0c5421",
+      "name" : "Client Host",
+      "protocol" : "openid-connect",
+      "protocolMapper" : "oidc-usersessionmodel-note-mapper",
+      "consentRequired" : false,
+      "config" : {
+        "user.session.note" : "clientHost",
+        "userinfo.token.claim" : "true",
+        "id.token.claim" : "true",
+        "access.token.claim" : "true",
+        "claim.name" : "clientHost",
+        "jsonType.label" : "String"
+      }
+    }, {
+      "id" : "d3265668-a1ae-4023-b2d5-46ae01bb47ad",
+      "name" : "Client ID",
+      "protocol" : "openid-connect",
+      "protocolMapper" : "oidc-usersessionmodel-note-mapper",
+      "consentRequired" : false,
+      "config" : {
+        "user.session.note" : "clientId",
+        "userinfo.token.claim" : "true",
+        "id.token.claim" : "true",
+        "access.token.claim" : "true",
+        "claim.name" : "clientId",
+        "jsonType.label" : "String"
+      }
+    } ],
+    "defaultClientScopes" : [ "web-origins", "acr", "fhir", "profile", "email" ],
+    "optionalClientScopes" : [ "address", "phone", "offline_access", "roles", "microprofile-jwt" ]
+  }, {
+    "id" : "e1cdfeb5-80ec-46c2-b5d4-1746794ac172",
+    "clientId" : "fhir-superuser-read-client",
+    "name" : "Superuser FHIR Read Client",
+    "description" : "Can view any FHIR resource in the server",
+    "rootUrl" : "",
+    "adminUrl" : "",
+    "baseUrl" : "",
+    "surrogateAuthRequired" : false,
+    "enabled" : true,
+    "alwaysDisplayInConsole" : true,
+    "clientAuthenticatorType" : "client-secret",
+    "secret" : "wIr36TnTjDga0dgoWznTU6C1firbaufr",
+    "redirectUris" : [ "/*" ],
+    "webOrigins" : [ "/*" ],
+    "notBefore" : 0,
+    "bearerOnly" : false,
+    "consentRequired" : false,
+    "standardFlowEnabled" : false,
+    "implicitFlowEnabled" : false,
+    "directAccessGrantsEnabled" : false,
+    "serviceAccountsEnabled" : true,
+    "publicClient" : false,
+    "frontchannelLogout" : true,
+    "protocol" : "openid-connect",
+    "attributes" : {
+      "oidc.ciba.grant.enabled" : "false",
+      "client.secret.creation.time" : "1680709042",
+      "backchannel.logout.session.required" : "true",
+      "oauth2.device.authorization.grant.enabled" : "false",
+      "display.on.consent.screen" : "false",
+      "backchannel.logout.revoke.offline.tokens" : "false"
+    },
+    "authenticationFlowBindingOverrides" : { },
+    "fullScopeAllowed" : true,
+    "nodeReRegistrationTimeout" : -1,
+    "protocolMappers" : [ {
+      "id" : "130c5104-7c35-46d5-b509-092fa0cc719a",
+      "name" : "Client ID",
+      "protocol" : "openid-connect",
+      "protocolMapper" : "oidc-usersessionmodel-note-mapper",
+      "consentRequired" : false,
+      "config" : {
+        "user.session.note" : "clientId",
+        "id.token.claim" : "true",
+        "access.token.claim" : "true",
+        "claim.name" : "clientId",
+        "jsonType.label" : "String"
+      }
+    }, {
+      "id" : "72f34817-d95e-4d8a-aad4-d52090aa20eb",
+      "name" : "Client Host",
+      "protocol" : "openid-connect",
+      "protocolMapper" : "oidc-usersessionmodel-note-mapper",
+      "consentRequired" : false,
+      "config" : {
+        "user.session.note" : "clientHost",
+        "id.token.claim" : "true",
+        "access.token.claim" : "true",
+        "claim.name" : "clientHost",
+        "jsonType.label" : "String"
+      }
+    }, {
+      "id" : "6938e52d-b3a3-44bf-b242-a73854f24ad8",
+      "name" : "Client IP Address",
+      "protocol" : "openid-connect",
+      "protocolMapper" : "oidc-usersessionmodel-note-mapper",
+      "consentRequired" : false,
+      "config" : {
+        "user.session.note" : "clientAddress",
+        "id.token.claim" : "true",
+        "access.token.claim" : "true",
+        "claim.name" : "clientAddress",
+        "jsonType.label" : "String"
+      }
+    } ],
+    "defaultClientScopes" : [ "web-origins", "acr", "fhir", "profile", "email" ],
+    "optionalClientScopes" : [ "address", "phone", "offline_access", "roles", "microprofile-jwt" ]
   }, {
     "id" : "a410c6e6-0405-494e-862f-021c084b6c87",
     "clientId" : "ingest-study-client",
@@ -613,6 +801,7 @@
       "oidc.ciba.grant.enabled" : "false",
       "client.secret.creation.time" : "1680537347",
       "backchannel.logout.session.required" : "true",
+      "post.logout.redirect.uris" : "+",
       "oauth2.device.authorization.grant.enabled" : "false",
       "display.on.consent.screen" : "false",
       "backchannel.logout.revoke.offline.tokens" : "false"
@@ -628,6 +817,7 @@
       "consentRequired" : false,
       "config" : {
         "user.session.note" : "clientHost",
+        "userinfo.token.claim" : "true",
         "id.token.claim" : "true",
         "access.token.claim" : "true",
         "claim.name" : "clientHost",
@@ -641,6 +831,7 @@
       "consentRequired" : false,
       "config" : {
         "user.session.note" : "clientId",
+        "userinfo.token.claim" : "true",
         "id.token.claim" : "true",
         "access.token.claim" : "true",
         "claim.name" : "clientId",
@@ -654,6 +845,7 @@
       "consentRequired" : false,
       "config" : {
         "user.session.note" : "clientAddress",
+        "userinfo.token.claim" : "true",
         "id.token.claim" : "true",
         "access.token.claim" : "true",
         "claim.name" : "clientAddress",
@@ -673,87 +865,10 @@
         "_id" : "e298d2e8-b244-40d0-95dd-5c63cbc29b1f",
         "uris" : [ "/*" ]
       } ],
-      "policies" : [  ],
+      "policies" : [ ],
       "scopes" : [ ],
       "decisionStrategy" : "UNANIMOUS"
     }
-  }, {
-    "id" : "010b4cf5-f9fd-4b6d-a612-49ee2118750d",
-    "clientId" : "fhir-superuser-client",
-    "name" : "Superuser FHIR Client",
-    "description" : "Superuser FHIR Client (can do any FHIR op)",
-    "rootUrl" : "",
-    "adminUrl" : "",
-    "baseUrl" : "",
-    "surrogateAuthRequired" : false,
-    "enabled" : true,
-    "alwaysDisplayInConsole" : true,
-    "clientAuthenticatorType" : "client-secret",
-    "secret" : "0Fpgo1YGkoszswRoNULq44JVBXBB0HBu",
-    "redirectUris" : [ "/*" ],
-    "webOrigins" : [ "/*" ],
-    "notBefore" : 0,
-    "bearerOnly" : false,
-    "consentRequired" : false,
-    "standardFlowEnabled" : false,
-    "implicitFlowEnabled" : false,
-    "directAccessGrantsEnabled" : false,
-    "serviceAccountsEnabled" : true,
-    "publicClient" : false,
-    "frontchannelLogout" : true,
-    "protocol" : "openid-connect",
-    "attributes" : {
-      "oidc.ciba.grant.enabled" : "false",
-      "oauth2.device.authorization.grant.enabled" : "false",
-      "client.secret.creation.time" : "1680629980",
-      "backchannel.logout.session.required" : "true",
-      "backchannel.logout.revoke.offline.tokens" : "false"
-    },
-    "authenticationFlowBindingOverrides" : { },
-    "fullScopeAllowed" : true,
-    "nodeReRegistrationTimeout" : -1,
-    "protocolMappers" : [ {
-      "id" : "dbf22a46-49c1-4252-8519-bb508def298b",
-      "name" : "Client IP Address",
-      "protocol" : "openid-connect",
-      "protocolMapper" : "oidc-usersessionmodel-note-mapper",
-      "consentRequired" : false,
-      "config" : {
-        "user.session.note" : "clientAddress",
-        "id.token.claim" : "true",
-        "access.token.claim" : "true",
-        "claim.name" : "clientAddress",
-        "jsonType.label" : "String"
-      }
-    }, {
-      "id" : "523416a0-52c4-4201-9e55-a8966f0c5421",
-      "name" : "Client Host",
-      "protocol" : "openid-connect",
-      "protocolMapper" : "oidc-usersessionmodel-note-mapper",
-      "consentRequired" : false,
-      "config" : {
-        "user.session.note" : "clientHost",
-        "id.token.claim" : "true",
-        "access.token.claim" : "true",
-        "claim.name" : "clientHost",
-        "jsonType.label" : "String"
-      }
-    }, {
-      "id" : "d3265668-a1ae-4023-b2d5-46ae01bb47ad",
-      "name" : "Client ID",
-      "protocol" : "openid-connect",
-      "protocolMapper" : "oidc-usersessionmodel-note-mapper",
-      "consentRequired" : false,
-      "config" : {
-        "user.session.note" : "clientId",
-        "id.token.claim" : "true",
-        "access.token.claim" : "true",
-        "claim.name" : "clientId",
-        "jsonType.label" : "String"
-      }
-    } ],
-    "defaultClientScopes" : [ "web-origins", "acr", "fhir", "profile", "email" ],
-    "optionalClientScopes" : [ "address", "phone", "offline_access", "roles", "microprofile-jwt" ]
   }, {
     "id" : "b9eaf54b-790e-47b9-996d-31812071ab60",
     "clientId" : "realm-management",
@@ -774,7 +889,9 @@
     "publicClient" : false,
     "frontchannelLogout" : false,
     "protocol" : "openid-connect",
-    "attributes" : { },
+    "attributes" : {
+      "post.logout.redirect.uris" : "+"
+    },
     "authenticationFlowBindingOverrides" : { },
     "fullScopeAllowed" : false,
     "nodeReRegistrationTimeout" : 0,
@@ -844,13 +961,14 @@
       "consentRequired" : false,
       "config" : {
         "id.token.claim" : "true",
-        "access.token.claim" : "true"
+        "access.token.claim" : "true",
+        "userinfo.token.claim" : "true"
       }
     } ]
   }, {
     "id" : "c6680962-65fd-4bb1-a8cb-50dfcbb4a2c0",
     "name" : "fhir",
-    "description" : "FHIR permissions/roles",
+    "description" : "FHIR roles and data access grants",
     "protocol" : "openid-connect",
     "attributes" : {
       "include.in.token.scope" : "true",
@@ -1284,6 +1402,7 @@
       "consentRequired" : false,
       "config" : {
         "multivalued" : "true",
+        "userinfo.token.claim" : "true",
         "user.attribute" : "foo",
         "id.token.claim" : "true",
         "access.token.claim" : "true",
@@ -1375,7 +1494,7 @@
       "subType" : "authenticated",
       "subComponents" : { },
       "config" : {
-        "allowed-protocol-mapper-types" : [ "saml-user-attribute-mapper", "oidc-usermodel-property-mapper", "oidc-full-name-mapper", "oidc-address-mapper", "oidc-sha256-pairwise-sub-mapper", "saml-role-list-mapper", "saml-user-property-mapper", "oidc-usermodel-attribute-mapper" ]
+        "allowed-protocol-mapper-types" : [ "oidc-address-mapper", "saml-user-property-mapper", "oidc-usermodel-property-mapper", "oidc-sha256-pairwise-sub-mapper", "oidc-full-name-mapper", "saml-role-list-mapper", "oidc-usermodel-attribute-mapper", "saml-user-attribute-mapper" ]
       }
     }, {
       "id" : "49572955-51fb-4bd7-8816-665be05bc455",
@@ -1400,7 +1519,7 @@
       "subType" : "anonymous",
       "subComponents" : { },
       "config" : {
-        "allowed-protocol-mapper-types" : [ "oidc-usermodel-attribute-mapper", "saml-user-property-mapper", "saml-user-attribute-mapper", "saml-role-list-mapper", "oidc-sha256-pairwise-sub-mapper", "oidc-usermodel-property-mapper", "oidc-full-name-mapper", "oidc-address-mapper" ]
+        "allowed-protocol-mapper-types" : [ "oidc-usermodel-property-mapper", "saml-user-property-mapper", "oidc-usermodel-attribute-mapper", "saml-role-list-mapper", "oidc-full-name-mapper", "oidc-sha256-pairwise-sub-mapper", "saml-user-attribute-mapper", "oidc-address-mapper" ]
       }
     } ],
     "org.keycloak.userprofile.UserProfileProvider" : [ {
@@ -1458,7 +1577,7 @@
   "internationalizationEnabled" : false,
   "supportedLocales" : [ ],
   "authenticationFlows" : [ {
-    "id" : "17d189b4-51ac-4f45-990a-f155942ab8bf",
+    "id" : "6486a828-0b23-45b2-8140-e57e8b9ffd7f",
     "alias" : "Account verification options",
     "description" : "Method with which to verity the existing account",
     "providerId" : "basic-flow",
@@ -1480,7 +1599,7 @@
       "userSetupAllowed" : false
     } ]
   }, {
-    "id" : "1556bf78-d27d-4200-992d-c6fd14091207",
+    "id" : "eddf8d3d-c58b-4545-8968-4f9302203cc6",
     "alias" : "Authentication Options",
     "description" : "Authentication options.",
     "providerId" : "basic-flow",
@@ -1509,7 +1628,7 @@
       "userSetupAllowed" : false
     } ]
   }, {
-    "id" : "10622771-6d50-4a92-9dc1-996897205cc8",
+    "id" : "56dbadb7-63f9-4bb6-b1cd-b5c3ab1e62df",
     "alias" : "Browser - Conditional OTP",
     "description" : "Flow to determine if the OTP is required for the authentication",
     "providerId" : "basic-flow",
@@ -1531,7 +1650,7 @@
       "userSetupAllowed" : false
     } ]
   }, {
-    "id" : "508c678d-f2ec-48a3-b92f-0df666cdc838",
+    "id" : "41efbf73-184d-47a5-ba9b-2c0142151544",
     "alias" : "Direct Grant - Conditional OTP",
     "description" : "Flow to determine if the OTP is required for the authentication",
     "providerId" : "basic-flow",
@@ -1553,7 +1672,7 @@
       "userSetupAllowed" : false
     } ]
   }, {
-    "id" : "dc920a6a-5594-4645-8870-f156dde9fb28",
+    "id" : "2fabaf69-b249-4600-94cc-b551a8633848",
     "alias" : "First broker login - Conditional OTP",
     "description" : "Flow to determine if the OTP is required for the authentication",
     "providerId" : "basic-flow",
@@ -1575,7 +1694,7 @@
       "userSetupAllowed" : false
     } ]
   }, {
-    "id" : "7561dcca-904b-418b-a8e7-e7d46cc676fd",
+    "id" : "7c3f0225-b6cb-4db4-af1e-2da044a3aa27",
     "alias" : "Handle Existing Account",
     "description" : "Handle what to do if there is existing account with same email/username like authenticated identity provider",
     "providerId" : "basic-flow",
@@ -1597,7 +1716,7 @@
       "userSetupAllowed" : false
     } ]
   }, {
-    "id" : "e3951be9-a415-46ce-afba-163f935efc6b",
+    "id" : "a14a1b2d-acbb-496b-8dac-258a5bac3d84",
     "alias" : "Reset - Conditional OTP",
     "description" : "Flow to determine if the OTP should be reset or not. Set to REQUIRED to force.",
     "providerId" : "basic-flow",
@@ -1619,7 +1738,7 @@
       "userSetupAllowed" : false
     } ]
   }, {
-    "id" : "5391699c-ddbc-414e-956f-6836dfa58b8e",
+    "id" : "3d048500-245a-47ed-9789-cf669b4e2f1a",
     "alias" : "User creation or linking",
     "description" : "Flow for the existing/non-existing user alternatives",
     "providerId" : "basic-flow",
@@ -1642,7 +1761,7 @@
       "userSetupAllowed" : false
     } ]
   }, {
-    "id" : "86c7b35e-a8a3-4767-bea7-a23298913304",
+    "id" : "f0ef76fb-dc41-4849-9477-477f671f43be",
     "alias" : "Verify Existing Account by Re-authentication",
     "description" : "Reauthentication of existing account",
     "providerId" : "basic-flow",
@@ -1664,7 +1783,7 @@
       "userSetupAllowed" : false
     } ]
   }, {
-    "id" : "0700b06e-04db-41ca-88cd-d4b1e655366b",
+    "id" : "59541e30-f8fb-4419-9ae5-be9bed9b34ee",
     "alias" : "browser",
     "description" : "browser based authentication",
     "providerId" : "basic-flow",
@@ -1700,7 +1819,7 @@
       "userSetupAllowed" : false
     } ]
   }, {
-    "id" : "25ee1765-5ac4-4fd0-a10b-be656be3fa07",
+    "id" : "c0d148c7-4d89-4d13-9b07-b541f0de5c1e",
     "alias" : "clients",
     "description" : "Base authentication for clients",
     "providerId" : "client-flow",
@@ -1736,7 +1855,7 @@
       "userSetupAllowed" : false
     } ]
   }, {
-    "id" : "68cc845a-ad83-40e9-bcbc-e5953cede8b5",
+    "id" : "bc85f6b1-3dbf-4e4d-ae4f-b940487bae93",
     "alias" : "direct grant",
     "description" : "OpenID Connect Resource Owner Grant",
     "providerId" : "basic-flow",
@@ -1765,7 +1884,7 @@
       "userSetupAllowed" : false
     } ]
   }, {
-    "id" : "1c559ed4-309b-42ab-92a4-787ab4d90d2d",
+    "id" : "5a8a0117-159b-4788-adc7-70932dce9792",
     "alias" : "docker auth",
     "description" : "Used by Docker clients to authenticate against the IDP",
     "providerId" : "basic-flow",
@@ -1780,7 +1899,7 @@
       "userSetupAllowed" : false
     } ]
   }, {
-    "id" : "9b2a936a-7de4-40a9-9041-695297f627f8",
+    "id" : "a454e00b-af48-47de-b813-37d73e5f7920",
     "alias" : "first broker login",
     "description" : "Actions taken after first broker login with identity provider account, which is not yet linked to any Keycloak account",
     "providerId" : "basic-flow",
@@ -1803,7 +1922,7 @@
       "userSetupAllowed" : false
     } ]
   }, {
-    "id" : "95512eee-2f3d-4737-b05d-def0852791fa",
+    "id" : "db5122a8-37d3-46ae-83a7-487d7bc3c613",
     "alias" : "forms",
     "description" : "Username, password, otp and other auth forms.",
     "providerId" : "basic-flow",
@@ -1825,7 +1944,7 @@
       "userSetupAllowed" : false
     } ]
   }, {
-    "id" : "e91b50ff-0f57-4eb2-8f93-f6379bb8dc4c",
+    "id" : "22e55367-234c-468d-b677-a839c75a7500",
     "alias" : "http challenge",
     "description" : "An authentication flow based on challenge-response HTTP Authentication Schemes",
     "providerId" : "basic-flow",
@@ -1847,7 +1966,7 @@
       "userSetupAllowed" : false
     } ]
   }, {
-    "id" : "887b3342-35d8-4c75-ad2e-925cc904c65f",
+    "id" : "a8e7a1b8-f57e-4028-85b3-d5d0be4d031e",
     "alias" : "registration",
     "description" : "registration flow",
     "providerId" : "basic-flow",
@@ -1863,7 +1982,7 @@
       "userSetupAllowed" : false
     } ]
   }, {
-    "id" : "ff96b456-8dfb-4b31-97d2-54e94221b541",
+    "id" : "b3788ed9-25f8-49bf-961e-a46fd7b4eafe",
     "alias" : "registration form",
     "description" : "registration form",
     "providerId" : "form-flow",
@@ -1899,7 +2018,7 @@
       "userSetupAllowed" : false
     } ]
   }, {
-    "id" : "cf143e2a-3738-4e5f-ab71-bd27e6c1ed58",
+    "id" : "662a935a-9a03-473e-8bf8-ba9165d05d02",
     "alias" : "reset credentials",
     "description" : "Reset credentials for a user if they forgot their password or something",
     "providerId" : "basic-flow",
@@ -1935,7 +2054,7 @@
       "userSetupAllowed" : false
     } ]
   }, {
-    "id" : "8daa5c13-b2ed-43ba-ae15-b2776b24cb4b",
+    "id" : "e6487059-d153-442e-868a-da1c31e7333c",
     "alias" : "saml ecp",
     "description" : "SAML ECP Profile Authentication Flow",
     "providerId" : "basic-flow",
@@ -1951,13 +2070,13 @@
     } ]
   } ],
   "authenticatorConfig" : [ {
-    "id" : "4a32c540-1fb9-435f-aa5b-385313455d5c",
+    "id" : "dea49b0a-6c55-4206-8e5e-2a17ccafd25e",
     "alias" : "create unique user config",
     "config" : {
       "require.password.update.after.registration" : "false"
     }
   }, {
-    "id" : "d3025cc7-5512-4a61-a6cd-87405cdcd32d",
+    "id" : "14b0ebf6-7756-4016-a865-4995189e65b8",
     "alias" : "review profile config",
     "config" : {
       "update.profile.on.first.login" : "missing"
@@ -2047,8 +2166,8 @@
     "cibaExpiresIn" : "120",
     "cibaAuthRequestedUserHint" : "login_hint",
     "oauth2DeviceCodeLifespan" : "600",
-    "oauth2DevicePollingInterval" : "5",
     "clientOfflineSessionMaxLifespan" : "0",
+    "oauth2DevicePollingInterval" : "5",
     "clientSessionIdleTimeout" : "0",
     "parRequestUriLifespan" : "60",
     "clientSessionMaxLifespan" : "0",
