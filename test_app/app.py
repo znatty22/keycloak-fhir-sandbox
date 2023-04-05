@@ -16,8 +16,10 @@ def auth_sandbox():
     """
     Test auth stuff out with keycloak
     """
-    token = auth.sandbox(auth.KEYCLOAK_DEV_CLIENT_ID,
-                         auth.KEYCLOAK_DEV_CLIENT_SECRET)
+    token = auth.get_access_token(
+        client_id=request.args.get("client_id"),
+        client_secret=request.args.get("client_secret")
+    )
     return jsonify(token)
 
 
