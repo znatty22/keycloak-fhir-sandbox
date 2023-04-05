@@ -28,6 +28,9 @@ services:
       FLASK_SERVER_PORT: 8081
     ports:
       - '8081:8081'
+    volumes:
+      - ./test_app/:/home/app
+      - /home/app/venv
       
   smilecdr:
     container_name: smilecdr_simple

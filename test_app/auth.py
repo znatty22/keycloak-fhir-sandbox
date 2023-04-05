@@ -29,7 +29,6 @@ SMILECDR_AUDIENCE = "https://kf-api-fhir-smilecdr-dev.org"
 domain = KEYCLOAK_DEV_DOMAIN
 client_id = KEYCLOAK_DEV_CLIENT_ID
 client_secret = KEYCLOAK_DEV_CLIENT_SECRET
-send_req = False
 
 
 def send_request(method, *args, **kwargs):
@@ -48,7 +47,7 @@ def send_request(method, *args, **kwargs):
     return resp
 
 
-def sandbox(client_id, client_secret):
+def get_access_token(client_id, client_secret):
     """
     Test OAuth2 stuff
     """
@@ -87,18 +86,6 @@ def sandbox(client_id, client_secret):
     )
     pprint(decoded_token)
 
-    if send_req:
-        print("\n****** Send FHIR request *************")
-        fhir_endpoint = f"{SMILECDR_FHIR_ENDPOINT}/Patient"
-        access_token = token_payload["access_token"]
-        headers.update(
-            {
-                "Authorization": f"Bearer {access_token}",
-            }
-        )
-        resp = send_request("get", fhir_endpoint, headers=headers)
-        pprint(resp.json())
-
     return decoded_token
 
 
@@ -121,7 +108,7 @@ def cli():
     )
     args = parser.parse_args()
 
-    sandbox(args.client_id, args.client_secret)
+    get_access_token(args.client_id, args.client_secret)
 
 
 if __name__ == "__main__":
