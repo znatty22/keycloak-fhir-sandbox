@@ -48,4 +48,5 @@ services:
       - ./settings/master.properties:/home/smile/smilecdr/classes/cdr-config-Master.properties
       - ./settings/oidc-servers.json:/home/smile/smilecdr/classes/config_seeding/oidc-servers.json
       - ./settings/auth.js:/home/smile/smilecdr/classes/config_seeding/auth.js
+      - ./settings/consent.js:/home/smile/smilecdr/classes/consent.js
     restart: "unless-stopped"
