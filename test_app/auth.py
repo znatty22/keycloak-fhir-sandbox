@@ -46,7 +46,7 @@ def send_request(method, *args, **kwargs):
 
 def get_access_token(
     client_id=KEYCLOAK_CLIENT_ID, client_secret=KEYCLOAK_CLIENT_SECRET,
-    domain=KEYCLOAK_DOMAIN
+    domain=KEYCLOAK_DOMAIN,decoded=True
 ):
     """
     Test OAuth2 stuff
@@ -86,9 +86,10 @@ def get_access_token(
     )
     pprint(decoded_token)
 
-    decoded_token["original"] = access_token
-
-    return decoded_token
+    if decoded:
+        return decoded_token
+    else:
+        return token_payload
 
 
 def cli():

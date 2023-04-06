@@ -18,7 +18,8 @@ def auth_sandbox():
     """
     token = auth.get_access_token(
         client_id=request.args.get("client_id"),
-        client_secret=request.args.get("client_secret")
+        client_secret=request.args.get("client_secret"),
+        decoded=request.args.get("decoded", "true").lower() == "true"
     )
     return jsonify(token)
 
