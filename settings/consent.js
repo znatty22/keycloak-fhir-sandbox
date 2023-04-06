@@ -98,19 +98,14 @@ function isAuthorizedStudyResource(consentGrants, action, theResource) {
   // array is only accessed by index so .filter and .every functions
   // do not work here
 
-  Log.info(
-    `Evaluate resource ${theResource.resourceType}/${
-      theResource.id
-    } with tags: ${JSON.stringify(theResource.meta.tag)}`
-  );
-
   // Get study ids for the authorized action
-  studyIds = Object.entries(consentGrants.study)
+  let studyIds = Object.entries(consentGrants.study)
     .filter(([_, grants]) => grants[action])
     .map(([studyId, _]) => studyId);
 
   // Check that authorized study IDs are ALL part of the resource's tag list
-  count = 0;
+  let tags = [];
+  let count = 0;
   for (var i in theResource.meta?.tag) {
     let tag = theResource.meta?.tag[i];
     if (tag.system !== "urn:study_id") {
@@ -119,7 +114,13 @@ function isAuthorizedStudyResource(consentGrants, action, theResource) {
     if (studyIds.includes(tag.code)) {
       count++;
     }
+    tags.push({ code: tag.code, system: tag.system });
   }
+  Log.info(
+    `Evaluated resource ${theResource.resourceType}/${
+      theResource.id
+    } with study tags: ${JSON.stringify(tags)}`
+  );
   return count === theResource.meta.tag.length;
 }
 
@@ -220,11 +221,12 @@ function consentCanSeeResource(
 
   // Extract consent authorizations from user session
   try {
-    consentGrants = JSON.parse(theUserSession.userData?.consentGrants);
+    consentGrants = JSON.parse(theUserSession.getUserData("consentGrants"));
   } catch (e) {
     Log.error(
       "Consent authorizations in UserSession.userData has malformed JSON string. Could not parse"
     );
+    Log.info(JSON.stringify(theUserSession.userData));
     theContextServices.reject();
     return;
   }
