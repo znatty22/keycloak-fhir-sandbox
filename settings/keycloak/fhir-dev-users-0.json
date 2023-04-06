@@ -38,10 +38,10 @@
       "disableableCredentialTypes": [],
       "requiredActions": [],
       "realmRoles": [
-        "fhir-consent-read-study-all",
+        "fhir-consent-read-study|all",
         "fhir-role-fhir-client-superuser",
-        "fhir-consent-write-study-all",
-        "fhir-consent-delete-study-all"
+        "fhir-consent-write-study|all",
+        "fhir-consent-delete-study|all"
       ],
       "notBefore": 0,
       "groups": []
@@ -59,7 +59,7 @@
       "requiredActions": [],
       "realmRoles": [
         "fhir-role-fhir-client-superuser-ro",
-        "fhir-consent-read-study-all"
+        "fhir-consent-read-study|all"
       ],
       "notBefore": 0,
       "groups": []
@@ -76,10 +76,10 @@
       "disableableCredentialTypes": [],
       "requiredActions": [],
       "realmRoles": [
-        "fhir-role-fhir-superuser-client",
-        "fhir-consent-write-study-SD-0",
-        "fhir-consent-read-study-SD-0",
-        "fhir-consent-delete-study-SD-0"
+        "fhir-role-fhir-client-superuser",
+        "fhir-consent-write-study|SD-0",
+        "fhir-consent-read-study|SD-0",
+        "fhir-consent-delete-study|SD-0"
       ],
       "clientRoles": {
         "ingest-study-client": ["uma_protection"]

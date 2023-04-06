@@ -71,7 +71,7 @@
       },
       {
         "id": "289172a1-5aef-40e9-aea0-53e4819f6ec2",
-        "name": "fhir-consent-write-study-SD-0",
+        "name": "fhir-consent-write-study|SD-0",
         "description": "Write/update any FHIR resources in this study",
         "composite": false,
         "clientRole": false,
@@ -80,7 +80,7 @@
       },
       {
         "id": "349cd6a7-8e77-4f69-ad57-0fc378afc14c",
-        "name": "fhir-consent-read-study-SD-0",
+        "name": "fhir-consent-read-study|SD-0",
         "description": "Read any FHIR resources in this study",
         "composite": false,
         "clientRole": false,
@@ -89,7 +89,7 @@
       },
       {
         "id": "66df751d-5d7a-4746-8d17-8de87d4eb680",
-        "name": "fhir-consent-write-study-all",
+        "name": "fhir-consent-write-study|all",
         "description": "Write FHIR resources in any study",
         "composite": false,
         "clientRole": false,
@@ -98,7 +98,7 @@
       },
       {
         "id": "489ec8d7-cd67-4906-a1a1-095f69444bf8",
-        "name": "fhir-consent-delete-study-all",
+        "name": "fhir-consent-delete-study|all",
         "description": "Delete FHIR resources in any study",
         "composite": false,
         "clientRole": false,
@@ -107,7 +107,7 @@
       },
       {
         "id": "87197b3a-0da3-4309-8eb4-5354e93a9c0a",
-        "name": "fhir-consent-read-study-SD-1",
+        "name": "fhir-consent-read-study|SD-1",
         "description": "Read FHIR resources in this study",
         "composite": false,
         "clientRole": false,
@@ -125,7 +125,7 @@
       },
       {
         "id": "4a2a9ca8-969d-4344-aa2d-bfe3522ed75f",
-        "name": "fhir-consent-read-study-all",
+        "name": "fhir-consent-read-study|all",
         "description": "Read FHIR resources in any study",
         "composite": false,
         "clientRole": false,
@@ -134,7 +134,7 @@
       },
       {
         "id": "4e1d6eef-9273-497e-9501-667a26d85a9b",
-        "name": "fhir-consent-delete-study-SD-1",
+        "name": "fhir-consent-delete-study|SD-1",
         "description": "Delete FHIR resources in this study",
         "composite": false,
         "clientRole": false,
@@ -143,7 +143,7 @@
       },
       {
         "id": "0cbff10d-8beb-4f14-ba6b-ce4c83226f17",
-        "name": "fhir-consent-write-study-SD-1",
+        "name": "fhir-consent-write-study|SD-1",
         "description": "Write FHIR resources in this study",
         "composite": false,
         "clientRole": false,
@@ -179,7 +179,7 @@
       },
       {
         "id": "314469fc-d480-4bb8-9e3d-ae7170d3086c",
-        "name": "fhir-consent-delete-study-SD-0",
+        "name": "fhir-consent-delete-study|SD-0",
         "description": "Delete any FHIR resources in this study",
         "composite": false,
         "clientRole": false,
@@ -2580,4 +2580,3 @@
     "policies": []
   }
 }
-
