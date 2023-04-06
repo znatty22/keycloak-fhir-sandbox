@@ -17,19 +17,15 @@ import jwt
 
 KEYCLOAK_HOST = os.environ.get("KEYCLOAK_HOST") or "localhost"
 KEYCLOAK_PORT = os.environ.get("KEYCLOAK_PORT") or "8080"
-KEYCLOAK_DEV_DOMAIN = f"http://{KEYCLOAK_HOST}:{KEYCLOAK_PORT}/realms/fhir-dev"
-KEYCLOAK_DEV_CLIENT_ID = "fhir-superuser-client"
-KEYCLOAK_DEV_CLIENT_SECRET = "0Fpgo1YGkoszswRoNULq44JVBXBB0HBu"
-
+KEYCLOAK_DOMAIN = f"http://{KEYCLOAK_HOST}:{KEYCLOAK_PORT}/realms/fhir-dev"
+KEYCLOAK_CLIENT_ID = (
+    os.environ.get("KEYCLOAK_CLIENT_ID") or "fhir-superuser-client"
+)
+KEYCLOAK_CLIENT_SECRET = os.environ.get("KEYCLOAK_CLIENT_SECRET") or "none"
 SMILECDR_HOST = os.environ.get("SMILECDR_HOST") or "localhost"
 SMILECDR_PORT = os.environ.get("SMILECDR_PORT") or "4000"
 SMILECDR_FHIR_ENDPOINT = "http://{SMILECDR_HOST}:{SMILECDR_PORT}"
 SMILECDR_AUDIENCE = "https://kf-api-fhir-smilecdr-dev.org"
-
-domain = KEYCLOAK_DEV_DOMAIN
-client_id = KEYCLOAK_DEV_CLIENT_ID
-client_secret = KEYCLOAK_DEV_CLIENT_SECRET
-send_req = False
 
 
 def send_request(method, *args, **kwargs):
@@ -48,7 +44,10 @@ def send_request(method, *args, **kwargs):
     return resp
 
 
-def sandbox(client_id, client_secret):
+def get_access_token(
+    client_id=KEYCLOAK_CLIENT_ID, client_secret=KEYCLOAK_CLIENT_SECRET,
+    domain=KEYCLOAK_DOMAIN,decoded=True
+):
     """
     Test OAuth2 stuff
     """
@@ -87,19 +86,10 @@ def sandbox(client_id, client_secret):
     )
     pprint(decoded_token)
 
-    if send_req:
-        print("\n****** Send FHIR request *************")
-        fhir_endpoint = f"{SMILECDR_FHIR_ENDPOINT}/Patient"
-        access_token = token_payload["access_token"]
-        headers.update(
-            {
-                "Authorization": f"Bearer {access_token}",
-            }
-        )
-        resp = send_request("get", fhir_endpoint, headers=headers)
-        pprint(resp.json())
-
-    return decoded_token
+    if decoded:
+        return decoded_token
+    else:
+        return token_payload
 
 
 def cli():
@@ -111,17 +101,22 @@ def cli():
     )
     parser.add_argument(
         "--client_id",
-        default=client_id,
+        default=KEYCLOAK_CLIENT_ID,
         help="Keycloak Client ID",
     )
     parser.add_argument(
         "--client_secret",
-        default=client_secret,
+        default=KEYCLOAK_CLIENT_SECRET,
+        help="Keycloak Client secret",
+    )
+    parser.add_argument(
+        "--domain",
+        default=KEYCLOAK_DOMAIN,
         help="Keycloak Client secret",
     )
     args = parser.parse_args()
 
-    sandbox(args.client_id, args.client_secret)
+    get_access_token(args.client_id, args.client_secret, args.domain)
 
 
 if __name__ == "__main__":

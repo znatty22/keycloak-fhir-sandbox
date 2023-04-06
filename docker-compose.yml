@@ -28,6 +28,9 @@ services:
       FLASK_SERVER_PORT: 8081
     ports:
       - '8081:8081'
+    volumes:
+      - ./test_app/:/home/app
+      - /home/app/venv
       
   smilecdr:
     container_name: smilecdr_simple
@@ -45,4 +48,5 @@ services:
       - ./settings/master.properties:/home/smile/smilecdr/classes/cdr-config-Master.properties
       - ./settings/oidc-servers.json:/home/smile/smilecdr/classes/config_seeding/oidc-servers.json
       - ./settings/auth.js:/home/smile/smilecdr/classes/config_seeding/auth.js
+      - ./settings/consent.js:/home/smile/smilecdr/classes/consent.js
     restart: "unless-stopped"
