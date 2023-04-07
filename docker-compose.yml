@@ -22,10 +22,8 @@ services:
       context: test_app
     depends_on:
       - keycloak
-    environment:
-      KEYCLOAK_HOST: "keycloak"
-      KEYCLOAK_PORT: "8080"
-      FLASK_SERVER_PORT: 8081
+    env_file:
+      .env
     ports:
       - '8081:8081'
     volumes:
@@ -35,6 +33,8 @@ services:
   smilecdr:
     container_name: smilecdr_simple
     image: kidsfirstdrc/smilecdr:2023.02.R02
+    env_file:
+      - .env
     depends_on:
       - keycloak
     ports:

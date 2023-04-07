@@ -9,15 +9,18 @@ from pathlib import Path
 import requests
 from requests.auth import HTTPBasicAuth
 import jwt
-# from dotenv import find_dotenv, load_dotenv
+from dotenv import find_dotenv, load_dotenv
 
-# DOTENV_PATH = find_dotenv()
-# if DOTENV_PATH:
-#     load_dotenv(DOTENV_PATH)
+DOTENV_PATH = find_dotenv()
+if DOTENV_PATH:
+    load_dotenv(DOTENV_PATH)
 
 KEYCLOAK_HOST = os.environ.get("KEYCLOAK_HOST") or "localhost"
 KEYCLOAK_PORT = os.environ.get("KEYCLOAK_PORT") or "8080"
-KEYCLOAK_DOMAIN = f"http://{KEYCLOAK_HOST}:{KEYCLOAK_PORT}/realms/fhir-dev"
+KEYCLOAK_ISSUER = (
+    os.environ.get("KEYCLOAK_ISSUER") or
+    f"http://{KEYCLOAK_HOST}:{KEYCLOAK_PORT}/realms/fhir-dev"
+)
 KEYCLOAK_CLIENT_ID = (
     os.environ.get("KEYCLOAK_CLIENT_ID") or "fhir-superuser-client"
 )
@@ -46,7 +49,7 @@ def send_request(method, *args, **kwargs):
 
 def get_access_token(
     client_id=KEYCLOAK_CLIENT_ID, client_secret=KEYCLOAK_CLIENT_SECRET,
-    domain=KEYCLOAK_DOMAIN,decoded=True
+    issuer=KEYCLOAK_ISSUER, decoded=True
 ):
     """
     Test OAuth2 stuff
@@ -57,7 +60,7 @@ def get_access_token(
     # Get OIDC configuration
     print("\n****** Get OIDC Configuration *************")
     openid_config_endpoint = (
-        f"{domain}/.well-known/openid-configuration"
+        f"{issuer}/.well-known/openid-configuration"
     )
     resp = send_request("get", openid_config_endpoint, headers=headers)
     openid_config = resp.json()
@@ -110,13 +113,13 @@ def cli():
         help="Keycloak Client secret",
     )
     parser.add_argument(
-        "--domain",
-        default=KEYCLOAK_DOMAIN,
-        help="Keycloak Client secret",
+        "--issuer",
+        default=KEYCLOAK_ISSUER,
+        help="Keycloak Issuer URL",
     )
     args = parser.parse_args()
 
-    get_access_token(args.client_id, args.client_secret, args.domain)
+    get_access_token(args.client_id, args.client_secret, args.issuer)
 
 
 if __name__ == "__main__":
