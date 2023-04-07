@@ -37,7 +37,7 @@ echo "🐳 Start docker-compose stack ..."
 
 # Set env file
 if [[ ! -f '.env' ]]; then
-    cp '.env.sample' '.env'
+    cp 'env.sample' '.env'
 fi
 source .env
 
