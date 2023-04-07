@@ -31,7 +31,7 @@ def create_user(client_id, client_secret, endpoint, user):
     username = user['username']
 
     # Extract consent authorizations and store in user.notes as JSON encoded str
-    consent = user.get("consent", {})
+    consent = user.get("auth_config", {})
     if consent:
         user["notes"] = json.dumps(consent)
     try:

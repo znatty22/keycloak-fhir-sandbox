@@ -1,8 +1,8 @@
-// Log = {
-//   info: (msg) => console.info(msg),
-//   warn: (msg) => console.warn(msg),
-//   error: (msg) => console.error(msg),
-// };
+Log = {
+  info: (msg) => console.info(msg),
+  warn: (msg) => console.warn(msg),
+  error: (msg) => console.error(msg),
+};
 
 FHIR_CLAIM_PREFIX = "fhir-";
 FHIR_CONSENT_CLAIM_PREFIX = "fhir-consent-";
@@ -53,6 +53,7 @@ function handleBasicAuthRequest(theOutcome, theOutcomeFactory, theContext) {
   Log.info("******* Handle Basic Auth *******");
 
   // Extract FHIR consent claims from user.notes in user session
+
   try {
     fhirConsentClaims = JSON.parse(theContext.notes);
   } catch (e) {
@@ -61,12 +62,12 @@ function handleBasicAuthRequest(theOutcome, theOutcomeFactory, theContext) {
     );
     Log.error(String(e));
   }
-  // Create consent object from FHIR consent claims
-  consentGrants = parseConsentClaims(
-    fhirConsentClaims.filter((claim) =>
-      claim.startsWith(FHIR_CONSENT_CLAIM_PREFIX)
-    )
+  fhirConsentClaims = fhirConsentClaims.filter((claim) =>
+    claim.startsWith(FHIR_CONSENT_CLAIM_PREFIX)
   );
+
+  // Create consent object from FHIR consent claims
+  consentGrants = parseConsentClaims(fhirConsentClaims);
 
   return consentGrants;
 }
@@ -81,13 +82,14 @@ function handleOAuth2Request(theOutcome, theOutcomeFactory, theContext) {
    */
   Log.info("******* Handle OIDC Auth ******* ");
 
-  fhirClaims = theContext.getClaim("fhir");
-  fhirRoleClaims = fhirClaims.filter((claim) =>
-    claim.startsWith(FHIR_ROLE_CLAIM_PREFIX)
-  );
-  fhirConsentClaims = fhirClaims.filter((claim) =>
-    claim.startsWith(FHIR_CONSENT_CLAIM_PREFIX)
-  );
+  // Extract fhir claims from token
+  fhirConsentClaims = theContext
+    .getClaim("fhir_consent_grants")
+    .filter((claim) => claim.startsWith(FHIR_CONSENT_CLAIM_PREFIX));
+
+  fhirRoleClaims = theContext
+    .getClaim("fhir_roles")
+    .filter((claim) => claim.startsWith(FHIR_ROLE_CLAIM_PREFIX));
 
   // Create FHIR role from FHIR role claims
   roles = fhirRoleClaims.map((role) => {
@@ -192,9 +194,14 @@ outcome = {
 };
 context = {
   userData: "",
-  notes: '["fhir-role-fhir-client-superuser", "fhir-consent-read-study|SD-0"]',
-  fhir: [
-    "fhir-role-fhir-client-superuser",
+  notes: JSON.stringify({
+    fhir_consent_grants: [
+      "fhir-consent-write-study|SD-0",
+      "fhir-consent-delete-study|SD-0",
+      "fhir-consent-read-study|all",
+    ],
+  }),
+  fhir_consent_grants: [
     // "fhir-consent-read-study|SD-0",
     "fhir-consent-write-study|SD-0",
     "fhir-consent-delete-study|SD-0",
@@ -202,8 +209,9 @@ context = {
     "fhir-consent-read-study|all",
     // "fhir-consent-write-study|all",
   ],
-  getClaim: function () {
-    return this.fhir;
+  fhir_roles: ["fhir-role-fhir-client-superuser"],
+  getClaim: function (claim) {
+    return this[claim];
   },
 };
 
