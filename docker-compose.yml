@@ -8,7 +8,6 @@ services:
     environment:
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: password
-      KC_HOSTNAME: "keycloak"
     ports:
       - "8080:8080"
     command: start-dev --hostname-strict-backchannel=true --import-realm
