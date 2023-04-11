@@ -3,7 +3,7 @@ import json
 from urllib.parse import urlparse
 from pprint import pprint
 
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, abort
 import requests
 
 import auth
@@ -11,17 +11,21 @@ import auth
 app = Flask(__name__)
 
 
-@app.route('/auth-sandbox')
-def auth_sandbox():
+@app.post('/keycloak-proxy/<keycloak_endpoint>')
+def auth_sandbox(keycloak_endpoint):
     """
     Test auth stuff out with keycloak
     """
-    token = auth.get_access_token(
-        client_id=request.args.get("client_id"),
-        client_secret=request.args.get("client_secret"),
-        decoded=request.args.get("decoded", "true").lower() == "true"
-    )
-    return jsonify(token)
+    if keycloak_endpoint == "token":
+        kwargs = request.get_json()
+        if request.args.get("issuer"):
+            kwargs.update({
+                "issuer": request.args.get("issuer")
+            })
+        token = auth.get_access_token(**kwargs)
+        return jsonify(token)
+    else:
+        abort(404)
 
 
 if __name__ == "__main__":

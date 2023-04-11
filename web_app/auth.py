@@ -89,10 +89,10 @@ def get_access_token(
     )
     pprint(decoded_token)
 
-    if decoded:
-        return decoded_token
-    else:
-        return token_payload
+    token_payload.update({
+        "decoded_token": decoded_token
+    })
+    return token_payload
 
 
 def cli():
