@@ -26,7 +26,7 @@ KEYCLOAK_CLIENT_ID = (
 )
 KEYCLOAK_CLIENT_SECRET = os.environ.get("KEYCLOAK_CLIENT_SECRET") or "none"
 SMILECDR_HOST = os.environ.get("SMILECDR_HOST") or "localhost"
-SMILECDR_PORT = os.environ.get("SMILECDR_PORT") or "4000"
+SMILECDR_PORT = os.environ.get("SMILECDR_PORT") or "8000"
 SMILECDR_FHIR_ENDPOINT = "http://{SMILECDR_HOST}:{SMILECDR_PORT}"
 SMILECDR_AUDIENCE = "https://kf-api-fhir-smilecdr-dev.org"
 

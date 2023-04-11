@@ -37,12 +37,12 @@ services:
     depends_on:
       - keycloak
     ports:
-      - "4000:8000"
-      - "5000:9000"
-      - "5100:9100"
-      - "4001:8001"
-      - "5200:9200"
-      - "5201:9201"
+      - "8000:8000"
+      - "9000:9000"
+      - "9100:9100"
+      - "8001:8001"
+      - "9200:9200"
+      - "9201:9201"
     volumes:
       - ./smilecdr/settings/master.properties:/home/smile/smilecdr/classes/cdr-config-Master.properties
       - ./smilecdr/settings/oidc-servers.json:/home/smile/smilecdr/classes/config_seeding/oidc-servers.json

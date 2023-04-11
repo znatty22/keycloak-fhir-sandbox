@@ -93,7 +93,7 @@ Let's use the access token to view the FHIR data we are authorized to see:
 ```shell
 curl -X GET -H 'Content-Type: application/json' \
 -H 'Authorization: Bearer <put access token here>'\ 
-http://localhost:4000/Patient
+http://localhost:8000/Patient
 ```
 
 You should get back only Patients that are tagged with study SD-0 since 
@@ -157,7 +157,7 @@ with study SD-1):
 ```shell
 curl -X GET -H 'Content-Type: application/json' \
 -H 'Authorization: Bearer <put access token here>'\ 
-http://localhost:4000/Patient/PT-1-0
+http://localhost:8000/Patient/PT-1-0
 ```
 
 You should get back a response that says the Patient was not found 
@@ -176,5 +176,30 @@ You should get back a response that says the Patient was not found
 ```
 
 # 👩‍💻 Development
+
+## Docs
+
+## Smile CDR
+All server settings are located in `smilecdr/settings`
+
+```
+smilecdr
+`-- settings
+    |-- auth.js
+    |-- consent.js
+    |-- master.properties
+    |-- oidc-servers.json
+    |-- setenv
+    |-- system-users.json
+    `-- users.json
+```
+
+### auth.js
+
+The post authentication callback function that Smile CDR calls once the user 
+has been authenticated. This function is responsible for parsing the 
+access token (in the case of OIDC) or user object (in the case of basic auth)
+
+## Authentication
 
 
