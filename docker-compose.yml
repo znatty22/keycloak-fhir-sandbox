@@ -16,9 +16,9 @@ services:
       - ./settings/keycloak:/opt/keycloak/data/import
 
   web:
-    container_name: test_app
+    container_name: web_app
     build:
-      context: test_app
+      context: web_app
     depends_on:
       - keycloak
     env_file:
@@ -26,7 +26,7 @@ services:
     ports:
       - '8081:8081'
     volumes:
-      - ./test_app/:/home/app
+      - ./web_app/:/home/app
       - /home/app/venv
       
   smilecdr:
