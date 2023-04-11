@@ -13,7 +13,7 @@ services:
     command: start-dev --hostname-strict-backchannel=true --import-realm
     # command: start-dev --import-realm
     volumes:
-      - ./settings/keycloak:/opt/keycloak/data/import
+      - ./keycloak/settings:/opt/keycloak/data/import
 
   web:
     container_name: web_app
@@ -44,8 +44,8 @@ services:
       - "5200:9200"
       - "5201:9201"
     volumes:
-      - ./settings/master.properties:/home/smile/smilecdr/classes/cdr-config-Master.properties
-      - ./settings/oidc-servers.json:/home/smile/smilecdr/classes/config_seeding/oidc-servers.json
-      - ./settings/auth.js:/home/smile/smilecdr/classes/config_seeding/auth.js
-      - ./settings/consent.js:/home/smile/smilecdr/classes/consent.js
+      - ./smilecdr/settings/master.properties:/home/smile/smilecdr/classes/cdr-config-Master.properties
+      - ./smilecdr/settings/oidc-servers.json:/home/smile/smilecdr/classes/config_seeding/oidc-servers.json
+      - ./smilecdr/settings/auth.js:/home/smile/smilecdr/classes/config_seeding/auth.js
+      - ./smilecdr/settings/consent.js:/home/smile/smilecdr/classes/consent.js
     restart: "unless-stopped"

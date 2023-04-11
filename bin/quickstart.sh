@@ -45,7 +45,7 @@ echo "🔼 Load sample data ..."
 ./bin/load_data.py admin password 
 
 echo "🔼 Seed Smile CDR users ..."
-./bin/seed_users.py admin password settings/users.json
+./bin/seed_users.py admin password smilecdr/settings/users.json
 
 ELAPSED=$((( SECONDS - START_TIME ) / 60 ))
 FORMATTED_ELAPSED=$(printf "%.2f" $ELAPSED)
