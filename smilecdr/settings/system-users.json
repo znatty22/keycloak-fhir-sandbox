@@ -21,7 +21,7 @@
           "permission": "ROLE_ANONYMOUS"
         },
         {
-          "permission": "FHIR_CABAILITIES"
+          "permission": "FHIR_CAPABILITIES"
         }
       ]
     }
