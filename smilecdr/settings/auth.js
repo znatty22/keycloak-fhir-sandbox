@@ -1,14 +1,51 @@
-// Log = {
-//   info: (msg) => console.info(msg),
-//   warn: (msg) => console.warn(msg),
-//   error: (msg) => console.error(msg),
-// };
+Log = {
+  info: (msg) => console.info(msg),
+  warn: (msg) => console.warn(msg),
+  error: (msg) => console.error(msg),
+};
 
 FHIR_CLAIM_PREFIX = "fhir-";
 FHIR_CONSENT_CLAIM_PREFIX = "fhir-consent-";
 FHIR_ROLE_CLAIM_PREFIX = "fhir-role-";
 
-function parseConsentClaims(fhirConsentClaims) {
+function extractFhirClaims(theContext) {
+  /*
+   * Extract FHIR roles and consent grants from the access token
+   *
+   * Need to account for different versions of Keycloak since the claims
+   * are stored differently
+   * */
+  fhirRoleClaims = theContext.getClaim("fhir_roles");
+  fhirConsentClaims = theContext.getClaim("fhir_consent_grants");
+
+  // For current version of Keycloak (21)
+  if (fhirRoleClaims && fhirConsentClaims) {
+    fhirConsentClaims = fhirConsentClaims.filter((claim) =>
+      claim.startsWith(FHIR_CONSENT_CLAIM_PREFIX)
+    );
+
+    fhirRoleClaims = fhirRoleClaims.filter((claim) =>
+      claim.startsWith(FHIR_ROLE_CLAIM_PREFIX)
+    );
+
+    // For backwards compatibility with older Keycloak versions (14)
+  } else {
+    fhirClaims = theContext.getClaim("fhir");
+    fhirConsentClaims = fhirClaims.filter((claim) =>
+      claim.startsWith(FHIR_CONSENT_CLAIM_PREFIX)
+    );
+
+    fhirRoleClaims = fhirClaims.filter((claim) =>
+      claim.startsWith(FHIR_ROLE_CLAIM_PREFIX)
+    );
+  }
+  return {
+    fhirRoleClaims,
+    fhirConsentClaims,
+  };
+}
+
+function createConsentGrantObj(fhirConsentClaims) {
   /*
    * Create consent object from list of FHIR consent claim strings
    *
@@ -53,6 +90,7 @@ function handleBasicAuthRequest(theOutcome, theOutcomeFactory, theContext) {
   Log.info("******* Handle Basic Auth *******");
 
   // Extract FHIR consent claims from user.notes in user session
+
   try {
     fhirConsentClaims = JSON.parse(theContext.notes);
   } catch (e) {
@@ -61,12 +99,12 @@ function handleBasicAuthRequest(theOutcome, theOutcomeFactory, theContext) {
     );
     Log.error(String(e));
   }
-  // Create consent object from FHIR consent claims
-  consentGrants = parseConsentClaims(
-    fhirConsentClaims.filter((claim) =>
-      claim.startsWith(FHIR_CONSENT_CLAIM_PREFIX)
-    )
+  fhirConsentClaims = fhirConsentClaims.fhir_consent_grants.filter((claim) =>
+    claim.startsWith(FHIR_CONSENT_CLAIM_PREFIX)
   );
+
+  // Create consent object from FHIR consent claims
+  consentGrants = createConsentGrantObj(fhirConsentClaims);
 
   return consentGrants;
 }
@@ -81,32 +119,21 @@ function handleOAuth2Request(theOutcome, theOutcomeFactory, theContext) {
    */
   Log.info("******* Handle OIDC Auth ******* ");
 
-  fhirClaims = theContext.getClaim("fhir");
-  fhirRoleClaims = fhirClaims.filter((claim) =>
-    claim.startsWith(FHIR_ROLE_CLAIM_PREFIX)
-  );
-  fhirConsentClaims = fhirClaims.filter((claim) =>
-    claim.startsWith(FHIR_CONSENT_CLAIM_PREFIX)
-  );
+  // Extract fhir claims from token
+  ({ fhirRoleClaims, fhirConsentClaims } = extractFhirClaims(theContext));
 
-  // Create FHIR role from FHIR role claims
+  // Create Smile CDR role from FHIR role claims
+  // Add to user session
   roles = fhirRoleClaims.map((role) => {
     formattedRole = role
       .replace(FHIR_CLAIM_PREFIX, "")
       .replaceAll("-", "_")
       .toUpperCase();
-    try {
-      theOutcome.addAuthority(formattedRole);
-    } catch (e) {
-      Log.warn(
-        `Role ${role} is not recognized. Will not be added to user session`
-      );
-    }
     return formattedRole;
   });
 
   // Create consent object from FHIR consent claims
-  consentGrants = parseConsentClaims(fhirConsentClaims);
+  consentGrants = createConsentGrantObj(fhirConsentClaims);
 
   return {
     roles,
@@ -160,13 +187,18 @@ function onAuthenticateSuccess(theOutcome, theOutcomeFactory, theContext) {
 
   // Add roles to user session
   if (roles.length > 0) {
-    roles.map((role) => theOutcome.addAuthority(role));
-    Log.info(`Added FHIR roles to user session: ${JSON.stringify(roles)}`);
-  } else {
-    Log.info(
-      `FHIR roles in user session: ${JSON.stringify(theOutcome.authorities)}`
-    );
+    roles.map((role) => {
+      try {
+        theOutcome.addAuthority(role);
+      } catch (e) {
+        Log.warn(
+          `Role ${role} is not recognized. Will not be added to user session`
+        );
+      }
+    });
   }
+  Log.info(`Roles in user session: ${JSON.stringify(theOutcome.authorities)}`);
+
   // Add consent grants to the user session
   theOutcome.setUserData("consentGrants", JSON.stringify(consentGrants));
   Log.info(
@@ -192,9 +224,20 @@ outcome = {
 };
 context = {
   userData: "",
-  notes: '["fhir-role-fhir-client-superuser", "fhir-consent-read-study|SD-0"]',
+  notes: JSON.stringify({
+    fhir_consent_grants: [
+      "fhir-consent-write-study|SD-0",
+      "fhir-consent-delete-study|SD-0",
+      "fhir-consent-read-study|all",
+    ],
+  }),
   fhir: [
     "fhir-role-fhir-client-superuser",
+    "fhir-consent-write-study|SD-0",
+    "fhir-consent-delete-study|SD-0",
+    "fhir-consent-read-study|all",
+  ],
+  fhir_consent_grants: [
     // "fhir-consent-read-study|SD-0",
     "fhir-consent-write-study|SD-0",
     "fhir-consent-delete-study|SD-0",
@@ -202,9 +245,10 @@ context = {
     "fhir-consent-read-study|all",
     // "fhir-consent-write-study|all",
   ],
-  getClaim: function () {
-    return this.fhir;
-  },
+  fhir_roles: ["fhir-role-fhir-client-superuser_ro"],
+  // getClaim: function (claim) {
+  //   return this[claim];
+  // },
 };
 
 onAuthenticateSuccess(outcome, null, context);

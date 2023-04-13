@@ -20,7 +20,7 @@ def generate_data(n_studies, n_patients):
 
     # Remove old data
     shutil.rmtree(DATA_DIR, ignore_errors=True)
-    os.mkdir(DATA_DIR)
+    os.makedirs(DATA_DIR)
 
     patients = []
     specimens = []

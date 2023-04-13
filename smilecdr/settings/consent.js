@@ -167,6 +167,7 @@ function consentStartOperation(
     "FHIR_ALL_READ",
     "FHIR_ALL_WRITE",
     "FHIR_ALL_DELETE",
+    "FHIR_CAPABILITIES",
   ];
   if (
     theUserSession != null &&

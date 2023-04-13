@@ -8,45 +8,45 @@ services:
     environment:
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: password
-      KC_HOSTNAME: "keycloak"
     ports:
       - "8080:8080"
     command: start-dev --hostname-strict-backchannel=true --import-realm
     # command: start-dev --import-realm
     volumes:
-      - ./settings/keycloak:/opt/keycloak/data/import
+      - ./keycloak/settings:/opt/keycloak/data/import
 
   web:
-    container_name: test_app
+    container_name: web_app
     build:
-      context: test_app
+      context: web_app
     depends_on:
       - keycloak
-    environment:
-      KEYCLOAK_HOST: "keycloak"
-      KEYCLOAK_PORT: "8080"
-      FLASK_SERVER_PORT: 8081
+    env_file:
+      .env
     ports:
       - '8081:8081'
     volumes:
-      - ./test_app/:/home/app
+      - ./web_app/:/home/app
       - /home/app/venv
       
   smilecdr:
     container_name: smilecdr_simple
     image: kidsfirstdrc/smilecdr:2023.02.R02
+    env_file:
+      - .env
     depends_on:
       - keycloak
     ports:
-      - "4000:8000"
-      - "5000:9000"
-      - "5100:9100"
-      - "4001:8001"
-      - "5200:9200"
-      - "5201:9201"
+      - "8000:8000"
+      - "9000:9000"
+      - "9100:9100"
+      - "8001:8001"
+      - "9200:9200"
+      - "9201:9201"
     volumes:
-      - ./settings/master.properties:/home/smile/smilecdr/classes/cdr-config-Master.properties
-      - ./settings/oidc-servers.json:/home/smile/smilecdr/classes/config_seeding/oidc-servers.json
-      - ./settings/auth.js:/home/smile/smilecdr/classes/config_seeding/auth.js
-      - ./settings/consent.js:/home/smile/smilecdr/classes/consent.js
+      - ./smilecdr/settings/master.properties:/home/smile/smilecdr/classes/cdr-config-Master.properties
+      - ./smilecdr/settings/oidc-servers.json:/home/smile/smilecdr/classes/config_seeding/oidc-servers.json
+      - ./smilecdr/settings/system-users.json:/home/smile/smilecdr/classes/config_seeding/users.json
+      - ./smilecdr/settings/auth.js:/home/smile/smilecdr/classes/config_seeding/auth.js
+      - ./smilecdr/settings/consent.js:/home/smile/smilecdr/classes/consent.js
     restart: "unless-stopped"

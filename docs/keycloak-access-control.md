@@ -1,5 +1,15 @@
 # Design
 
+## Usage of Keycloak 
+
+- Groups can store Smile CDR roles like `fhir-role-fhir-client-superuser`
+    - Smile CDR roles control what action the user can take (GET, PUT, POST)
+- Roles can store consent grants like `fhir-consent-read-study|SD-0`
+    - Smile CDR consent scripts control what data the user can act on
+    - Consent script would be written based on these consent grants in the 
+    access token
+- Users will be assigned one or more roles and one or more groups
+
 ## Create Custom Roles for FHIR
 1. Go to Realm Roles
 2. Create whatever roles you want
