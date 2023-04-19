@@ -34,6 +34,12 @@ services:
     image: kidsfirstdrc/smilecdr:2023.02.R02
     env_file:
       - .env
+    environment:
+      FHIR_DB_HOST: "${FHIR_DB_HOST}"
+      FHIR_DB_PORT: "${FHIR_DB_PORT}"
+      FHIR_DB_NAME: "${FHIR_DB_NAME}"
+      FHIR_DB_USER: "${FHIR_DB_USERNAME}"
+      FHIR_DB_PASSWORD: "${FHIR_DB_PASSWORD}"
     depends_on:
       - keycloak
     ports:
@@ -44,9 +50,35 @@ services:
       - "9200:9200"
       - "9201:9201"
     volumes:
-      - ./smilecdr/settings/master.properties:/home/smile/smilecdr/classes/cdr-config-Master.properties
+      # Server with Postgres DB
+      - ./smilecdr/settings/server-postgres.properties:/home/smile/smilecdr/classes/cdr-config-Master.properties
+      # Quickstart server with embedded H2 DB
+      # - ./smilecdr/settings/server-quickstart.properties:/home/smile/smilecdr/classes/cdr-config-Master.properties
       - ./smilecdr/settings/oidc-servers.json:/home/smile/smilecdr/classes/config_seeding/oidc-servers.json
       - ./smilecdr/settings/system-users.json:/home/smile/smilecdr/classes/config_seeding/users.json
       - ./smilecdr/settings/auth.js:/home/smile/smilecdr/classes/config_seeding/auth.js
       - ./smilecdr/settings/consent.js:/home/smile/smilecdr/classes/consent.js
     restart: "unless-stopped"
+    depends_on:
+      - smilecdr_postgres
+
+  smilecdr_postgres:
+    container_name: smilecdr_postgres
+    build:
+      context: ./smilecdr/postgres
+    ports:
+      - "5432:5432"
+    env_file:
+      - .env
+    environment:
+      POSTGRES_USER: "${POSTGRES_ADMIN_USER}"
+      POSTGRES_PASSWORD: "${POSTGRES_ADMIN_PASSWORD}"
+      FHIR_DB_NAME: "${FHIR_DB_NAME}"
+      FHIR_DB_USER: "${FHIR_DB_USERNAME}"
+      FHIR_DB_PASSWORD: "${FHIR_DB_PASSWORD}"
+    volumes:
+      - smilecdr_db:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  smilecdr_db:

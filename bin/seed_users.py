@@ -45,12 +45,10 @@ def create_user(client_id, client_secret, endpoint, user):
         result = resp.json()
         print(f"Created user {username}")
     except requests.exceptions.HTTPError as e:
-        if "already exists" in resp.text and resp.status_code == 400:
-            result = None
-        else:
-            print("Problem sending request to FHIR server")
-            print(resp.text)
-            raise e
+        print(f"Failed to create user {username}")
+        print("Problem sending request to FHIR server")
+        print(resp.text)
+        raise e
 
     return result
 
@@ -70,18 +68,32 @@ def seed_users(client_id, client_secret, seed_users_filepath):
         node_id = user.pop("nodeId")
         module_id = user.pop("moduleId")
         username = user['username']
-
-        # Try creating the user
         endpoint = f"{USER_MGMNT_ENDPOINT}/{node_id}/{module_id}"
-        result = create_user(client_id, client_secret, endpoint, user)
 
-        # Try updating the user bc it already exists
-        if not result:
-            pid = user.pop("pid", None)
-            if not pid:
-                raise ValueError(
-                    f"Cannot update user {username} without a pid"
-                )
+        # Get user by username
+        result = None
+        try:
+            resp = requests.get(
+                f"{USER_MGMNT_ENDPOINT}/{node_id}/{module_id}?searchTerm={username}",
+                headers=headers,
+                auth=HTTPBasicAuth(client_id, client_secret),
+            )
+            resp.raise_for_status()
+            result = resp.json()
+            print(f"Found existing user {result['users'][0]['username']}")
+        except requests.exceptions.HTTPError as e:
+            print(f"Failed to find user {user['username']}")
+            print("Problem sending request to FHIR server")
+            print(resp.text)
+            if resp.status_code == 404:
+                pass
+            else:
+                raise e
+
+        # Update  user
+        if result:
+            result = result["users"][0]
+            pid = result["pid"]
             try:
                 resp = requests.put(
                     f"{USER_MGMNT_ENDPOINT}/{node_id}/{module_id}/{pid}",
@@ -93,9 +105,16 @@ def seed_users(client_id, client_secret, seed_users_filepath):
                 result = resp.json()
                 print(f"Updated user {username} with pid {pid}")
             except requests.exceptions.HTTPError as e:
+                print(f"Failed to update user {user['username']}")
                 print("Problem sending request to FHIR server")
                 print(resp.text)
-                raise e
+                if "ConstraintViolationException" in resp.text:
+                    update_pid = True
+                else:
+                    raise e
+        # Create new user
+        else:
+            result = create_user(client_id, client_secret, endpoint, user)
 
         user.update(result)
         created_users.append(user)
