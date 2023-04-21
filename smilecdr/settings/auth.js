@@ -79,6 +79,20 @@ function createConsentGrantObj(fhirConsentClaims) {
 
   return addedConsents;
 }
+
+function addConsentGrantsToSession(consentGrants, theOutcome) {
+  // Add consent grants to the user session
+  if (consentGrants) {
+    theOutcome.setUserData("consentGrants", JSON.stringify(consentGrants));
+    Log.info(
+      `Added FHIR consent grants to user session: ${JSON.stringify(
+        consentGrants
+      )}`
+    );
+  }
+  return theOutcome;
+}
+
 function handleBasicAuthRequest(theOutcome, theOutcomeFactory, theContext) {
   /*
    * Assign appropriate FHIR role and consent grants based on the authenticated
@@ -92,12 +106,23 @@ function handleBasicAuthRequest(theOutcome, theOutcomeFactory, theContext) {
   // Extract FHIR consent claims from user.notes in user session
 
   try {
-    fhirConsentClaims = JSON.parse(theContext.notes);
+    fhirConsentClaims = JSON.parse(theOutcome.notes);
   } catch (e) {
     Log.error(
       "Consent authorizations in UserSession.notes has malformed JSON string. Could not parse"
     );
     Log.error(String(e));
+
+    // Create a failure object to return
+    var failure = theOutcomeFactory.newFailure();
+
+    // The following properties are optional
+    failure.message =
+      "Failed to extract consent authorizations from user session";
+    failure.unknownUsername = false;
+    failure.incorrectPassword = false;
+
+    return failure;
   }
   fhirConsentClaims = fhirConsentClaims.fhir_consent_grants.filter((claim) =>
     claim.startsWith(FHIR_CONSENT_CLAIM_PREFIX)
@@ -106,7 +131,8 @@ function handleBasicAuthRequest(theOutcome, theOutcomeFactory, theContext) {
   // Create consent object from FHIR consent claims
   consentGrants = createConsentGrantObj(fhirConsentClaims);
 
-  return consentGrants;
+  // Add consent grants to user session
+  addConsentGrantsToSession(consentGrants, theOutcome);
 }
 function handleOAuth2Request(theOutcome, theOutcomeFactory, theContext) {
   /*
@@ -132,13 +158,24 @@ function handleOAuth2Request(theOutcome, theOutcomeFactory, theContext) {
     return formattedRole;
   });
 
+  // Add roles to user session
+  if (roles.length > 0) {
+    roles.map((role) => {
+      try {
+        theOutcome.addAuthority(role);
+      } catch (e) {
+        Log.warn(
+          `Role ${role} is not recognized. Will not be added to user session`
+        );
+      }
+    });
+  }
+
   // Create consent object from FHIR consent claims
   consentGrants = createConsentGrantObj(fhirConsentClaims);
 
-  return {
-    roles,
-    consentGrants,
-  };
+  // Add consent grants to user session
+  addConsentGrantsToSession(consentGrants, theOutcome);
 }
 function onAuthenticateSuccess(theOutcome, theOutcomeFactory, theContext) {
   /*
@@ -165,45 +202,17 @@ function onAuthenticateSuccess(theOutcome, theOutcomeFactory, theContext) {
     return theOutcome;
   }
 
-  roles = [];
-  consentGrants = {};
-
   // Handle OAuth2/OIDC request
   if (typeof theContext.getClaim === "function") {
-    ({ roles, consentGrants } = handleOAuth2Request(
-      theOutcome,
-      theOutcomeFactory,
-      theContext
-    ));
+    theOutcome = handleOAuth2Request(theOutcome, theOutcomeFactory, theContext);
 
     // Handle Basic Auth request
   } else {
-    consentGrants = handleBasicAuthRequest(
-      theOutcome,
-      theOutcomeFactory,
-      theContext
-    );
+    handleBasicAuthRequest(theOutcome, theOutcomeFactory, theContext);
   }
-
-  // Add roles to user session
-  if (roles.length > 0) {
-    roles.map((role) => {
-      try {
-        theOutcome.addAuthority(role);
-      } catch (e) {
-        Log.warn(
-          `Role ${role} is not recognized. Will not be added to user session`
-        );
-      }
-    });
-  }
-  Log.info(`Roles in user session: ${JSON.stringify(theOutcome.authorities)}`);
-
-  // Add consent grants to the user session
-  theOutcome.setUserData("consentGrants", JSON.stringify(consentGrants));
   Log.info(
-    `Added FHIR consent grants to user session: ${JSON.stringify(
-      consentGrants
+    `Roles in user session: ${JSON.stringify(
+      theOutcome.authorities.map((a) => String(a))
     )}`
   );
 
@@ -212,6 +221,13 @@ function onAuthenticateSuccess(theOutcome, theOutcomeFactory, theContext) {
 
 outcome = {
   authorities: ["ROLE_FHIR_CLIENT_SUPERUSER"],
+  notes: JSON.stringify({
+    fhir_consent_grants: [
+      "fhir-consent-write-study|SD-0",
+      "fhir-consent-delete-study|SD-0",
+      "fhir-consent-read-study|all",
+    ],
+  }),
   hasAuthority: function (role) {
     return this.authorities.includes(role);
   },
@@ -224,13 +240,6 @@ outcome = {
 };
 context = {
   userData: "",
-  notes: JSON.stringify({
-    fhir_consent_grants: [
-      "fhir-consent-write-study|SD-0",
-      "fhir-consent-delete-study|SD-0",
-      "fhir-consent-read-study|all",
-    ],
-  }),
   fhir: [
     "fhir-role-fhir-client-superuser",
     "fhir-consent-write-study|SD-0",
@@ -251,4 +260,10 @@ context = {
   // },
 };
 
-onAuthenticateSuccess(outcome, null, context);
+factory = {
+  newFailure: function () {
+    return {};
+  },
+};
+
+onAuthenticateSuccess(outcome, factory, context);
