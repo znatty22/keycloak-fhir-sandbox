@@ -16,6 +16,14 @@ from config import (
 )
 
 
+def add_authorization(user):
+    # Extract consent authorizations and store in user.notes as JSON encoded str
+    consent = user.get("auth_config", {})
+    if consent:
+        user["notes"] = json.dumps(consent)
+    return user
+
+
 def create_user(client_id, client_secret, endpoint, user):
     """
     Create Smile CDR user
@@ -31,9 +39,7 @@ def create_user(client_id, client_secret, endpoint, user):
     username = user['username']
 
     # Extract consent authorizations and store in user.notes as JSON encoded str
-    consent = user.get("auth_config", {})
-    if consent:
-        user["notes"] = json.dumps(consent)
+    user = add_authorization(user)
     try:
         resp = requests.post(
             endpoint,
@@ -79,8 +85,9 @@ def seed_users(client_id, client_secret, seed_users_filepath):
                 auth=HTTPBasicAuth(client_id, client_secret),
             )
             resp.raise_for_status()
-            result = resp.json()
-            print(f"Found existing user {result['users'][0]['username']}")
+            result = resp.json().get("users", [])
+            if len(result) > 0:
+                result = result[0]
         except requests.exceptions.HTTPError as e:
             print(f"Failed to find user {user['username']}")
             print("Problem sending request to FHIR server")
@@ -92,7 +99,9 @@ def seed_users(client_id, client_secret, seed_users_filepath):
 
         # Update  user
         if result:
-            result = result["users"][0]
+            print(f"Found existing user {result['username']}")
+            # Extract consent authorizations and store in user.notes as JSON encoded str
+            user = add_authorization(user)
             pid = result["pid"]
             try:
                 resp = requests.put(
