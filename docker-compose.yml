@@ -31,7 +31,10 @@ services:
       
   smilecdr:
     container_name: smilecdr_simple
-    image: kidsfirstdrc/smilecdr:2023.02.R02
+    # image: kidsfirstdrc/smilecdr:2023.02.R02
+    build:
+      context: .
+      target: test
     env_file:
       - .env
     depends_on:
