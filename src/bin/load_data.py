@@ -9,7 +9,7 @@ from pprint import pprint
 import requests
 from requests.auth import HTTPBasicAuth
 
-from config import (
+from src.config import (
     DATA_DIR,
     FHIR_URL
 )

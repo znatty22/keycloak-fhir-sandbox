@@ -2,7 +2,7 @@ import time
 
 import requests
 
-from config import (
+from src.config import (
     BASE_URL,
 )
 

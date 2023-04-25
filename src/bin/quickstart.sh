@@ -24,9 +24,9 @@ while [ -n "$1" ]; do
 done
 
 if [ $DELETE_VOLUMES -eq 1 ]; then
-    ./bin/setup_dev_env.sh --delete-volumes
+    ./src/bin/setup_dev_env.sh --delete-volumes
 else
-    ./bin/setup_dev_env.sh
+    ./src/bin/setup_dev_env.sh
 fi
 
 if [ ! -d venv ]; then
@@ -39,13 +39,13 @@ else
 fi
 
 echo "🏭 Generating sample data ..."
-./bin/generate_data.py 2 5
+./src/bin/generate_data.py 2 5
 
 echo "🔼 Load sample data ..."
-./bin/load_data.py admin password 
+./src/bin/load_data.py admin password 
 
 echo "🔼 Seed Smile CDR users ..."
-./bin/seed_users.py admin password smilecdr/settings/users.json
+./src/bin/seed_users.py admin password smilecdr/settings/users.json
 
 ELAPSED=$((( SECONDS - START_TIME ) / 60 ))
 FORMATTED_ELAPSED=$(printf "%.2f" $ELAPSED)
