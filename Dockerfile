@@ -15,13 +15,15 @@
 # Whether server should respect forwarded headers 
 # RESPECT_FWD_HEADERS
 
+# FHIR base url 
+# FHIR_ENDPOINT
+
 # Postgres configuration
 # FHIR_DB_HOST
 # FHIR_DB_USERNAME
 # FHIR_DB_PASSWORD
 
 # ------ Integration Test Server Image ------
-# FROM 232196027141.dkr.ecr.us-east-1.amazonaws.com/kf-strides-smile-cdr:2021.02.R05 as test
 FROM kidsfirstdrc/smilecdr:2023.02.R02 as test
 
 WORKDIR /home/smile/smilecdr
@@ -39,6 +41,13 @@ ENV JVM_MAX_HEAP_SIZE -Xmx4g
 ENV SEED_CONF_RESOURCES false
 ENV REQUEST_VALIDATION false
 ENV RESPECT_FWD_HEADERS false
+ENV FHIR_ENDPOINT http://localhost:8000 
+ENV FHIR_DB_HOST localhost
+ENV FHIR_DB_PORT 5432
+ENV FHIR_DB_NAME cdr
+ENV FHIR_AUDIT_DB_NAME audit
+ENV FHIR_DB_USERNAME admin
+ENV FHIR_DB_PASSWORD password
 
 # ------ Production Server Image ------
 FROM test as production
@@ -50,12 +59,6 @@ COPY smilecdr/settings/server-postgres.properties classes/cdr-config-Master.prop
 # JVM max memory - 8GB
 ENV JVM_MAX_HEAP_SIZE -Xmx8g
 ENV SEED_CONF_RESOURCES true
-ENV REQUEST_VALIDATION true
+ENV REQUEST_VALIDATION false
 ENV RESPECT_FWD_HEADERS true
-ENV FHIR_DB_HOST localhost
-ENV FHIR_DB_PORT 5432
-ENV FHIR_DB_NAME cdr
-ENV FHIR_AUDIT_DB_NAME audit
-ENV FHIR_DB_USERNAME admin
-ENV FHIR_DB_PASSWORD password
 
