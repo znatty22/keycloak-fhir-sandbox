@@ -31,15 +31,12 @@ services:
       
   smilecdr:
     container_name: smilecdr_simple
-    image: kidsfirstdrc/smilecdr:2023.02.R02
+    # image: kidsfirstdrc/smilecdr:2023.02.R02
+    build:
+      context: .
+      target: test
     env_file:
       - .env
-    environment:
-      FHIR_DB_HOST: "${FHIR_DB_HOST}"
-      FHIR_DB_PORT: "${FHIR_DB_PORT}"
-      FHIR_DB_NAME: "${FHIR_DB_NAME}"
-      FHIR_DB_USER: "${FHIR_DB_USERNAME}"
-      FHIR_DB_PASSWORD: "${FHIR_DB_PASSWORD}"
     depends_on:
       - keycloak
     ports:
@@ -51,9 +48,12 @@ services:
       - "9201:9201"
     volumes:
       # Server with Postgres DB
-      - ./smilecdr/settings/server-postgres.properties:/home/smile/smilecdr/classes/cdr-config-Master.properties
-      # Quickstart server with embedded H2 DB
-      # - ./smilecdr/settings/server-quickstart.properties:/home/smile/smilecdr/classes/cdr-config-Master.properties
+      # - ./smilecdr/settings/server-postgres.properties:/home/smile/smilecdr/classes/cdr-config-Master.properties
+      # Server with Postgres DB and Keycloak
+      # - ./smilecdr/settings/server-postgres-oidc.properties:/home/smile/smilecdr/classes/cdr-config-Master.properties
+      # Server with embedded H2 DB and Keycloak
+      - ./smilecdr/settings/server-quickstart.properties:/home/smile/smilecdr/classes/cdr-config-Master.properties
+      - ./smilecdr/settings/jvm.sh:/home/smile/smilecdr/bin/setenv
       - ./smilecdr/settings/oidc-servers.json:/home/smile/smilecdr/classes/config_seeding/oidc-servers.json
       - ./smilecdr/settings/system-users.json:/home/smile/smilecdr/classes/config_seeding/users.json
       - ./smilecdr/settings/auth.js:/home/smile/smilecdr/classes/config_seeding/auth.js
@@ -70,12 +70,6 @@ services:
       - "5432:5432"
     env_file:
       - .env
-    environment:
-      POSTGRES_USER: "${POSTGRES_ADMIN_USER}"
-      POSTGRES_PASSWORD: "${POSTGRES_ADMIN_PASSWORD}"
-      FHIR_DB_NAME: "${FHIR_DB_NAME}"
-      FHIR_DB_USER: "${FHIR_DB_USERNAME}"
-      FHIR_DB_PASSWORD: "${FHIR_DB_PASSWORD}"
     volumes:
       - smilecdr_db:/var/lib/postgresql/data
     restart: unless-stopped

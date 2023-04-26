@@ -4,6 +4,8 @@
 # passed to the JVM when starting Smile CDR. These can be used to
 # tune memory use, etc.
 
+JVM_MAX_HEAP_SIZE=${JVM_MAX_HEAP_SIZE:-"-Xmx4g"}
+
 # Only set the JVMARGS if not already set by the caller
 if [ -z "$JVMARGS" ]; then
 
@@ -15,7 +17,7 @@ if [ -z "$JVMARGS" ]; then
   # means 4 GB and is suitable for normal development server loads.
   # Production servers, servers with real loads, or servers that
   # process large amounts of data will almost certainly need more.
-  JVMARGS="$JVMARGS -Xmx4g"
+  JVMARGS="$JVMARGS $JVM_MAX_HEAP_SIZE"
 
   # If you are deploying to a cloud host, you might want to override the JVM
   # timezone to match the timezone where the system admins will be located (this

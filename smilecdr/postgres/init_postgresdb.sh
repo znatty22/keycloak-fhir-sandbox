@@ -7,8 +7,11 @@
 #The script below creates only a single DB for Smile CDR with name $FHIR_DB_NAME with a single user ID and password "$FHIR_USER_LOGIN" and "$FHIR_PASSWORD"
 #Additional CREATE and GRANT statements can be included if additional databases and/or user ids are required.
 
+
 psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<- EOSQL
 CREATE ROLE $FHIR_DB_USERNAME LOGIN password '$FHIR_DB_PASSWORD';
 CREATE DATABASE $FHIR_DB_NAME;
+CREATE DATABASE $FHIR_AUDIT_DB_NAME;
 GRANT ALL PRIVILEGES ON DATABASE $FHIR_DB_NAME TO $FHIR_DB_USERNAME;
+GRANT ALL PRIVILEGES ON DATABASE $FHIR_AUDIT_DB_NAME TO $FHIR_DB_USERNAME;
 EOSQL

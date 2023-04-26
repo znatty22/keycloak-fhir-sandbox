@@ -6,7 +6,7 @@ import json
 import argparse
 from pprint import pprint
 
-from config import ROOT_DIR, DATA_DIR
+from src.config import ROOT_DIR, DATA_DIR
 from src import fhir_builder
 
 
